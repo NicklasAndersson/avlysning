@@ -4,6 +4,7 @@ export interface Restriction {
   end?: string
   type: string
   sectors: string[]
+  source_url?: string
 }
 
 export interface Field {

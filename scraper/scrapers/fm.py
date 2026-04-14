@@ -1,150 +1,137 @@
-"""Scraper för Försvarsmaktens skjutfält och avlysningar."""
+"""Scraper för Försvarsmaktens skjutfält och avlysningar via deras interna API."""
 
 import io
 import re
-from urllib.parse import urljoin
 
 import pdfplumber
-from bs4 import BeautifulSoup
 
 from .base import BaseScraper
+from .fm_parsers import parse_pdf_text
 
-# Samlingssida med alla skjutfält (paginerad)
-FM_BASE_URL = "https://www.forsvarsmakten.se/regler-och-tillstand/skjutfalt-och-forbud/"
-
-# Separata undersidor
-FM_SUBSITES = [
-    "https://www.forsvarsmakten.se/regler-och-tillstand/skjutfalt-och-forbud/alvdalens-skjutfalt/",
-    "https://www.forsvarsmakten.se/regler-och-tillstand/skjutfalt-och-forbud/tame-skjutfalt/",
-    "https://www.forsvarsmakten.se/sv/organisation/stockholms-amfibieregemente-amf-1/stockholms-amfibieregementes-skjutfalt-och-tilltradesforbud/",
-]
-
-# Regex för att hitta datum och tider i PDF-text
-DATE_PATTERN = re.compile(r"(\d{4}-\d{2}-\d{2})")
-TIME_RANGE_PATTERN = re.compile(r"(\d{2}[:.]\d{2})\s*[-–]\s*(\d{2}[:.]\d{2})")
+# FM:s interna API som returnerar alla skjutfält med PDF-länkar
+FM_API_URL = "https://www.forsvarsmakten.se/api/searchapi/get-firing-ranges?lang=sv"
+FM_BASE_URL = "https://www.forsvarsmakten.se"
+PAGE_SIZE = 12  # API returnerar 12 resultat per sida
 
 
 class FMScraper(BaseScraper):
-    """Scrapar avlysnings-PDF:er från forsvarsmakten.se."""
+    """Scrapar avlysnings-PDF:er från forsvarsmakten.se via deras JSON API."""
 
     def scrape(self) -> list[dict]:
-        """Hämtar alla skjutfält från FM:s samlingssida + undersidor."""
+        """Hämtar alla skjutfält via API:et och laddar ner relevanta PDF:er."""
         fields: list[dict] = []
+        all_ranges = self._get_all_ranges()
+        self.logger.info("Hittade %d skjutfält via API:et", len(all_ranges))
 
-        # Steg 1: Hämta alla fält-URL:er från samlingssidan (paginerad)
-        field_urls = self._get_field_urls()
-        self.logger.info("Hittade %d fält-URL:er på samlingssidan", len(field_urls))
-
-        # Steg 2: Lägg till kända undersidor
-        for url in FM_SUBSITES:
-            if url not in field_urls:
-                field_urls.append(url)
-
-        # Steg 3: Scrapa varje fält
-        for url in field_urls:
+        for range_data in all_ranges:
             try:
-                field_data = self._scrape_field_page(url)
-                if field_data:
-                    fields.append(field_data)
+                field = self._process_range(range_data)
+                if field:
+                    fields.append(field)
             except Exception:
-                self.logger.exception("Kunde inte scrapa fältssida: %s", url)
+                self.logger.exception(
+                    "Kunde inte bearbeta fält: %s", range_data.get("heading", "Okänt")
+                )
 
         return fields
 
-    def _get_field_urls(self) -> list[str]:
-        """Hämtar alla URL:er till individuella fältsidor från den paginerade listan."""
-        urls: list[str] = []
-        page = 1
+    def _get_all_ranges(self) -> list[dict]:
+        """Hämtar alla skjutfält från FM:s API med paginering (skip-parameter)."""
+        all_ranges: list[dict] = []
+        skip = 0
 
         while True:
-            page_url = FM_BASE_URL if page == 1 else f"{FM_BASE_URL}?page={page}"
-            try:
-                resp = self.fetch(page_url)
-            except Exception:
-                self.logger.exception("Kunde inte hämta sida %d", page)
+            url = f"{FM_API_URL}&skip={skip}" if skip > 0 else FM_API_URL
+            resp = self.fetch(url)
+            data = resp.json()
+
+            results = data.get("results", [])
+            if not results:
                 break
 
-            soup = BeautifulSoup(resp.text, "lxml")
+            all_ranges.extend(results)
+            total = data.get("totalMatching", 0)
 
-            # Hitta alla länkar till individuella fältsidor
-            field_links = soup.select("a[href*='skjutfalt-och-forbud/']")
-            new_urls = []
-            for link in field_links:
-                href = link.get("href", "")
-                if href and href != FM_BASE_URL and not href.endswith("skjutfalt-och-forbud/"):
-                    full_url = urljoin(FM_BASE_URL, href)
-                    if full_url not in urls:
-                        new_urls.append(full_url)
-
-            if not new_urls:
+            skip += PAGE_SIZE
+            if skip >= total:
                 break
 
-            urls.extend(new_urls)
-
-            # Kolla om det finns fler sidor
-            next_link = soup.select_one("a[rel='next'], a.next, .pagination a:last-child")
-            if not next_link:
+            # Säkerhetsgräns
+            if skip > 200:
+                self.logger.warning("Avbryter paginering vid skip=%d", skip)
                 break
 
-            page += 1
-            if page > 10:  # Säkerhetsgräns
-                self.logger.warning("Avbryter paginering vid sida %d", page)
-                break
+        return all_ranges
 
-        return urls
+    def _process_range(self, range_data: dict) -> dict | None:
+        """Bearbetar ett skjutfält: filtrera PDF:er, ladda ner och parsa."""
+        heading = range_data.get("heading", "Okänt fält")
+        documents = range_data.get("documents") or []
 
-    def _scrape_field_page(self, url: str) -> dict | None:
-        """Scrapar en individuell fältsida: hitta PDF-länkar, ladda ner och parsa."""
-        resp = self.fetch(url)
-        soup = BeautifulSoup(resp.text, "lxml")
+        if not documents:
+            self.logger.debug("Inga dokument för %s", heading)
+            return None
 
-        # Hämta fältnamn från sidans rubrik
-        title_tag = soup.select_one("h1")
-        field_name = title_tag.get_text(strip=True) if title_tag else "Okänt fält"
+        # Skapa ID från namn
+        field_id = self._make_id(heading)
 
-        # Skapa ID från URL
-        field_id = url.rstrip("/").split("/")[-1]
+        # Filtrera avlysnings-PDF:er (inte kartor etc)
+        restriction_docs = [
+            d for d in documents
+            if any(kw in d.get("title", "").lower()
+                   for kw in ["tilltradesforbud", "skjutvarning", "avlysning"])
+        ]
 
-        # Hitta PDF-länkar
-        pdf_links = []
-        for a_tag in soup.find_all("a", href=True):
-            href = a_tag["href"]
-            if href.lower().endswith(".pdf"):
-                pdf_url = urljoin(url, href)
-                link_text = a_tag.get_text(strip=True).lower()
-                if any(kw in link_text or kw in href.lower() for kw in ["skjutvarning", "tilltradesforbud", "avlysning"]):
-                    pdf_links.append(pdf_url)
+        # Om inga specifika, ta alla icke-karta PDF:er
+        if not restriction_docs:
+            restriction_docs = [
+                d for d in documents
+                if "karta" not in d.get("title", "").lower()
+                and d.get("url", "").lower().endswith(".pdf")
+            ]
 
-        # Om inga filtrerade PDF:er, ta alla PDF:er
-        if not pdf_links:
-            for a_tag in soup.find_all("a", href=True):
-                href = a_tag["href"]
-                if href.lower().endswith(".pdf"):
-                    pdf_links.append(urljoin(url, href))
+        self.logger.info(
+            "Fält '%s': %d avlysnings-PDF:er av %d dokument",
+            heading, len(restriction_docs), len(documents),
+        )
 
-        self.logger.info("Fält '%s': %d PDF:er hittade", field_name, len(pdf_links))
-
-        # Parsa PDF:er
         restrictions: list[dict] = []
-        for pdf_url in pdf_links:
+        pdf_urls: list[str] = []
+        for doc in restriction_docs:
+            pdf_url = FM_BASE_URL + doc["url"]
+            pdf_urls.append(pdf_url)
             try:
                 pdf_restrictions = self._parse_pdf(pdf_url)
+                # Lägg till source_url på varje restriktion
+                for r in pdf_restrictions:
+                    r["source_url"] = pdf_url
                 restrictions.extend(pdf_restrictions)
             except Exception:
                 self.logger.exception("Kunde inte parsa PDF: %s", pdf_url)
 
+        # Deduplicera (samma datum+tid+typ+sektorer)
+        seen: set[tuple[str, ...]] = set()
+        unique: list[dict] = []
+        for r in restrictions:
+            key = (r["date"], r.get("start", ""), r.get("end", ""),
+                   r["type"], tuple(r["sectors"]))
+            if key not in seen:
+                seen.add(key)
+                unique.append(r)
+
         return {
             "id": field_id,
-            "name": field_name,
+            "name": heading,
             "source": "forsvarsmakten.se",
-            "source_url": url,
-            "restrictions": restrictions,
+            "source_url": pdf_urls[0] if pdf_urls else
+                FM_BASE_URL + "/regler-och-tillstand/skjutfalt-och-forbud/",
+            "restrictions": unique,
         }
 
     def _parse_pdf(self, pdf_url: str) -> list[dict]:
-        """Laddar ner och parsar en avlysnings-PDF."""
+        """Laddar ner och parsar en avlysnings-PDF via formatspecifik parser."""
         pdf_bytes = self.fetch_bytes(pdf_url)
-        restrictions: list[dict] = []
+        filename = pdf_url.split("/")[-1]
 
         with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
             full_text = ""
@@ -157,22 +144,22 @@ class FMScraper(BaseScraper):
             self.logger.warning("Tom PDF: %s", pdf_url)
             return []
 
-        # Enkel parsning: hitta datum och tidsintervall
-        dates = DATE_PATTERN.findall(full_text)
-        time_ranges = TIME_RANGE_PATTERN.findall(full_text)
-
-        # Koppla ihop datum med tider (förenklad logik — behöver fältspecifik parsning)
-        for date_str in dates:
-            restriction: dict = {
-                "date": date_str,
-                "type": "skjutvarning",
-                "sectors": ["all"],
-            }
-            if time_ranges:
-                start, end = time_ranges[0]
-                restriction["start"] = start.replace(".", ":")
-                restriction["end"] = end.replace(".", ":")
-            restrictions.append(restriction)
-
-        self.logger.info("PDF %s: %d datum, %d tidsangivelser", pdf_url, len(dates), len(time_ranges))
+        restrictions = parse_pdf_text(full_text, filename)
+        if restrictions is None:
+            self.logger.warning("Ingen parser matchade: %s", filename)
+            return []
+        self.logger.info(
+            "PDF %s: %d restriktioner", filename, len(restrictions)
+        )
         return restrictions
+
+    @staticmethod
+    def _make_id(name: str) -> str:
+        """Skapar ett URL-vänligt ID från fältnamn."""
+        import unicodedata
+        # Normalisera och ta bort accenter
+        nfkd = unicodedata.normalize("NFKD", name.lower())
+        ascii_name = nfkd.encode("ascii", "ignore").decode("ascii")
+        # Ersätt icke-alfanumeriska med bindestreck
+        slug = re.sub(r"[^a-z0-9]+", "-", ascii_name).strip("-")
+        return slug

@@ -37,14 +37,28 @@
   padding: 1rem;
 }
 
-.source {
-  font-size: 0.8rem;
-  color: #666;
+.source-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   margin-bottom: 1rem;
 }
 
-.source a {
+.source-links a {
+  font-size: 0.8rem;
   color: #1b3a2d;
+}
+
+.pdf-link {
+  display: inline-block;
+  font-size: 0.78rem;
+  color: #1b3a2d;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.pdf-link:hover {
+  text-decoration: underline;
 }
 
 .restrictions h3 {
@@ -82,5 +96,10 @@
 .restriction-list .type {
   color: #f44336;
   text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.restriction-list .sectors {
+  color: #666;
   font-size: 0.75rem;
 }

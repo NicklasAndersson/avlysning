@@ -1,4 +1,4 @@
-import type { FieldStatus, Field } from '../types'
+import type { FieldStatus, Restriction } from '../types'
 import './InfoPanel.css'
 
 interface InfoPanelProps {
@@ -10,12 +10,19 @@ interface InfoPanelProps {
 export function InfoPanel({ statusData, selectedField, onClose }: InfoPanelProps) {
   if (!selectedField || !statusData) return null
 
-  const field = statusData.fields.find(f => f.id === selectedField)
+  const field = statusData.fields.find(f => f.name === selectedField)
   if (!field) return null
 
   const today = new Date().toISOString().split('T')[0]!
   const todayRestrictions = field.restrictions.filter(r => r.date === today)
   const futureRestrictions = field.restrictions.filter(r => r.date > today)
+
+  // Samla unika PDF-URLer
+  const pdfUrls = [...new Set(
+    field.restrictions
+      .map(r => r.source_url)
+      .filter((u): u is string => !!u)
+  )]
 
   return (
     <div className="info-panel">
@@ -25,9 +32,22 @@ export function InfoPanel({ statusData, selectedField, onClose }: InfoPanelProps
       </div>
 
       <div className="info-panel-body">
-        <p className="source">
-          Källa: <a href={field.source_url} target="_blank" rel="noopener noreferrer">{field.source}</a>
-        </p>
+        <div className="source-links">
+          {pdfUrls.length > 0 ? (
+            pdfUrls.map((url, i) => {
+              const filename = url.split('/').pop() ?? 'PDF'
+              return (
+                <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="pdf-link">
+                  📄 {filename}
+                </a>
+              )
+            })
+          ) : (
+            <a href={field.source_url} target="_blank" rel="noopener noreferrer">
+              Källa: {field.source}
+            </a>
+          )}
+        </div>
 
         {todayRestrictions.length > 0 ? (
           <div className="restrictions active">
@@ -51,7 +71,7 @@ export function InfoPanel({ statusData, selectedField, onClose }: InfoPanelProps
   )
 }
 
-function RestrictionList({ restrictions }: { restrictions: Field['restrictions'] }) {
+function RestrictionList({ restrictions }: { restrictions: Restriction[] }) {
   return (
     <ul className="restriction-list">
       {restrictions.map((r, i) => (
@@ -60,8 +80,10 @@ function RestrictionList({ restrictions }: { restrictions: Field['restrictions']
           {r.start && r.end && (
             <span className="time">{r.start}–{r.end}</span>
           )}
-          <span className="type">{r.type}</span>
-          <span className="sectors">{r.sectors.join(', ')}</span>
+          {r.type && <span className="type">{r.type}</span>}
+          {r.sectors.length > 0 && r.sectors[0] !== 'all' && (
+            <span className="sectors">{r.sectors.join(', ')}</span>
+          )}
         </li>
       ))}
     </ul>

@@ -55,7 +55,20 @@ def main() -> None:
         default=OUTPUT_FILE,
         help="Sökväg till output-fil (default: data/skjutfalt_status.json)",
     )
+    parser.add_argument(
+        "--no-cache",
+        action="store_true",
+        help="Ignorera disk-cache och hämta allt på nytt",
+    )
+    parser.add_argument(
+        "--cache-ttl",
+        type=int,
+        default=86400,
+        help="Cache-giltighetstid i sekunder (default: 86400 = 1 dygn)",
+    )
     args = parser.parse_args()
+
+    cache_ttl = 0 if args.no_cache else args.cache_ttl
 
     all_fields: list[dict] = []
 
@@ -73,6 +86,7 @@ def main() -> None:
             scraper = scrapers[source_name](
                 user_agent=USER_AGENT,
                 delay=REQUEST_DELAY,
+                cache_ttl=cache_ttl,
             )
             fields = scraper.scrape()
             all_fields.extend(fields)

@@ -28,6 +28,9 @@ Thumbs.db
 
 # Scraper downloads
 scraper/downloads/
+
+# Cache and temp files
+tmp/
 scraper/pdfs/
 
 # Temp files (geodata processing etc)
@@ -35,3 +38,4 @@ tmp/
 
 # Log files
 *.log
+scraper/nohup.out

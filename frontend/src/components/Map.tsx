@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import type { FieldStatus } from '../types'
+import { geoNameToFmName, fmNameToGeoName } from '../nameMapping'
 import './Map.css'
 
 interface MapProps {
@@ -18,6 +19,8 @@ export function Map({ statusData, onFieldClick }: MapProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<maplibregl.Map | null>(null)
   const popupRef = useRef<maplibregl.Popup | null>(null)
+  const fmNamesRef = useRef<Set<string>>(new Set())
+  const geoNamesRef = useRef<Set<string>>(new Set())
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -95,16 +98,16 @@ export function Map({ statusData, onFieldClick }: MapProps) {
         if (!feature) return
 
         const props = feature.properties
-        const name = props?.name ?? 'Okänt område'
-        const osmId = props?.osm_id ?? ''
+        const geoName = props?.name ?? 'Okänt område'
+        const fmName = geoNameToFmName(geoName, fmNamesRef.current)
 
-        onFieldClick(osmId)
+        onFieldClick(fmName)
 
         if (popupRef.current) popupRef.current.remove()
 
         popupRef.current = new maplibregl.Popup({ closeOnClick: true })
           .setLngLat(e.lngLat)
-          .setHTML(`<strong>${name}</strong><br/><small>OSM ID: ${osmId}</small>`)
+          .setHTML(`<strong>${name}</strong>`)
           .addTo(map)
       })
 
@@ -125,6 +128,25 @@ export function Map({ statusData, onFieldClick }: MapProps) {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Ladda GeoJSON-namn en gång när kartan laddats
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map) return
+    const onIdle = () => {
+      const source = map.getSource('skjutfalt') as maplibregl.GeoJSONSource | undefined
+      if (!source) return
+      const features = map.querySourceFeatures('skjutfalt')
+      const names = new Set<string>()
+      for (const f of features) {
+        const n = f.properties?.name
+        if (n) names.add(n)
+      }
+      geoNamesRef.current = names
+    }
+    map.on('idle', onIdle)
+    return () => { map.off('idle', onIdle) }
+  }, [])
+
   // Uppdatera färger när statusData ändras
   useEffect(() => {
     const map = mapRef.current
@@ -133,8 +155,13 @@ export function Map({ statusData, onFieldClick }: MapProps) {
     const source = map.getSource('skjutfalt')
     if (!source) return
 
+    // Uppdatera FM-namn ref
+    if (statusData) {
+      fmNamesRef.current = new Set(statusData.fields.map(f => f.name))
+    }
+
     // Bygg färguttryck baserat på statusdata
-    const colorExpression = buildColorExpression(statusData)
+    const colorExpression = buildColorExpression(statusData, geoNamesRef.current)
     map.setPaintProperty('skjutfalt-fill', 'fill-color', colorExpression)
   }, [statusData])
 
@@ -143,6 +170,7 @@ export function Map({ statusData, onFieldClick }: MapProps) {
 
 function buildColorExpression(
   statusData: FieldStatus | null,
+  geoNames: Set<string>,
 ): maplibregl.ExpressionSpecification {
   if (!statusData || statusData.fields.length === 0) {
     return '#888888'
@@ -151,12 +179,21 @@ function buildColorExpression(
   const today = new Date().toISOString().split('T')[0]
   const cases: (string | maplibregl.ExpressionSpecification)[] = ['case']
 
+  // Bygg set av GeoJSON-namn med aktiva restriktioner idag
+  const activeGeoNames = new Set<string>()
+  const knownGeoNames = new Set<string>()
   for (const field of statusData.fields) {
-    const hasRestrictionToday = field.restrictions.some(r => r.date === today)
-    // Match on name since GeoJSON uses OSM names
+    const geoName = fmNameToGeoName(field.name, geoNames)
+    knownGeoNames.add(geoName)
+    if (field.restrictions.some(r => r.date === today)) {
+      activeGeoNames.add(geoName)
+    }
+  }
+
+  for (const geoName of knownGeoNames) {
     cases.push(
-      ['==', ['get', 'name'], field.name],
-      hasRestrictionToday ? '#f44336' : '#4CAF50',
+      ['==', ['get', 'name'], geoName],
+      activeGeoNames.has(geoName) ? '#f44336' : '#4CAF50',
     )
   }
 
