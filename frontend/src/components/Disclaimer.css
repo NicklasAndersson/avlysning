@@ -1,0 +1,13 @@
+.disclaimer {
+  padding: 0.4rem 1rem;
+  background: #fff3cd;
+  border-top: 1px solid #ffc107;
+  font-size: 0.75rem;
+  color: #856404;
+  text-align: center;
+  z-index: 10;
+}
+
+.disclaimer strong {
+  color: #664d03;
+}

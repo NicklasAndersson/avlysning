@@ -104,9 +104,28 @@ Samma strategi som samlingssidan — hitta PDF-länkar, ladda ner, parsa.
 ### Status
 Ingen officiell GeoJSON finns tillgänglig publikt.
 
-### Primär källa: OpenStreetMap (Overpass API)
+### Primär källa: Geofabrik Sweden Extract + ogr2ogr
 
-**Relevanta tags:**
+**Nedladdning:** https://download.geofabrik.de/europe/sweden.html
+- `sweden-latest-free.shp.zip` (1.5 GB) — ESRI Shapefile, innehåller `gis_osm_landuse_a_free_1.shp` med `fclass='military'`
+- Uppdateras dagligen
+- Licens: ODbL (Open Database License)
+
+**Extrahering med ogr2ogr:**
+```bash
+# Ladda ner och packa upp
+wget https://download.geofabrik.de/europe/sweden-latest-free.shp.zip
+unzip sweden-latest-free.shp.zip -d sweden_shp/
+
+# Filtrera militära områden → GeoJSON
+ogr2ogr -f GeoJSON data/skjutfalt.geojson \
+  sweden_shp/gis_osm_landuse_a_free_1.shp \
+  -where "fclass = 'military'"
+```
+
+### Alternativ: Overpass API (backup)
+
+**Relevanta OSM-tags:**
 ```
 landuse=military
 military=range
@@ -130,6 +149,8 @@ area["ISO3166-1"="SE"]->.sweden;
 );
 out geom;
 ```
+
+**OBS:** Overpass kan timeouta vid stora queries. Geofabrik + ogr2ogr är mer tillförlitligt.
 
 **Licens:** ODbL (Open Database License) — öppen, kräver attribution  
 **Kvalitet:** Varierar. Uppskattningsvis 20–40 av 79 fält kan finnas.  

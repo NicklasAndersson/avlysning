@@ -1,0 +1,86 @@
+.info-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 320px;
+  max-height: 100%;
+  background: white;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+  z-index: 5;
+}
+
+.info-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: #1b3a2d;
+  color: white;
+}
+
+.info-panel-header h2 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.info-panel-body {
+  padding: 1rem;
+}
+
+.source {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.source a {
+  color: #1b3a2d;
+}
+
+.restrictions h3 {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.restrictions.active h3 {
+  color: #f44336;
+}
+
+.restrictions.clear p {
+  color: #4CAF50;
+  font-weight: 500;
+}
+
+.restriction-list {
+  list-style: none;
+  padding: 0;
+}
+
+.restriction-list li {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.85rem;
+}
+
+.restriction-list .date {
+  font-weight: 600;
+}
+
+.restriction-list .type {
+  color: #f44336;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}

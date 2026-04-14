@@ -106,6 +106,15 @@ Standard GeoJSON FeatureCollection. Each Feature has:
 3. **Disclaimer**: This is NOT an official FM service. Physical signage (gates, red lights, warning signs) at the field always takes legal precedence
 4. **Sync status**: Show warning when new PDF detected but not yet processed
 
+## Geodata Pipeline
+
+GeoJSON for shooting range polygons is extracted from OpenStreetMap data:
+1. Download Sweden extract from Geofabrik: https://download.geofabrik.de/europe/sweden.html
+2. Filter military features with `ogr2ogr` (GDAL) — available on this machine
+3. Convert to GeoJSON → `data/skjutfalt.geojson`
+
+Alternative: Overpass API (can be slow/unreliable for large queries).
+
 ## Commands
 
 ```bash
@@ -122,4 +131,20 @@ cd scraper && python main.py --source bofors # Scrape only skjutfalten.se
 # Docker (scraper)
 docker build -t fm-scraper ./scraper
 docker run fm-scraper
+
+# Geodata
+# Download Sweden shapefile from Geofabrik, filter military features
+ogr2ogr -f GeoJSON data/skjutfalt.geojson \
+  /path/to/gis_osm_landuse_a_free_1.shp \
+  -where "fclass = 'military'"
 ```
+
+## Agent Notes
+
+- **Terminal commands can be slow.** Always use adequate timeouts (30s+ for network, 90s+ for downloads). Read the actual output before proceeding — do not assume success or failure from timing alone.
+- **Overpass API** may timeout for large area queries. Prefer Geofabrik extracts + local processing with ogr2ogr.
+- **ogr2ogr (GDAL)** is installed on this machine.
+- **Temp dirs** should be in subdirectory of this project (e.g. `tmp/`) to avoid cluttering home directory. Always clean up temp files after processing.
+- **Create scripts** instead of running commands manually to ensure consistency and reproducibility.
+- **Temp dirs** should be in subdirectory of this project (e.g. `tmp/`) to avoid cluttering home directory. Always clean up temp files after processing.
+- **Create scripts** instead of running commands manually to ensure consistency and reproducibility.

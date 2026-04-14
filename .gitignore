@@ -30,5 +30,8 @@ Thumbs.db
 scraper/downloads/
 scraper/pdfs/
 
+# Temp files (geodata processing etc)
+tmp/
+
 # Log files
 *.log
