@@ -174,16 +174,16 @@ export function Map({ statusData, onFieldClick, selectedField }: MapProps) {
 
   // Uppdatera färger när statusData ändras
   useEffect(() => {
+    // Uppdatera FM-namn ref oavsett kartstatus (behövs vid klick)
+    if (statusData) {
+      fmNamesRef.current = new Set(statusData.fields.map(f => f.name))
+    }
+
     const map = mapRef.current
     if (!map || !map.isStyleLoaded()) return
 
     const source = map.getSource('skjutfalt')
     if (!source) return
-
-    // Uppdatera FM-namn ref
-    if (statusData) {
-      fmNamesRef.current = new Set(statusData.fields.map(f => f.name))
-    }
 
     // Bygg färguttryck baserat på statusdata
     const colorExpression = buildColorExpression(statusData, geoNamesRef.current)
