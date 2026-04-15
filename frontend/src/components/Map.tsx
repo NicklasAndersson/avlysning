@@ -101,6 +101,15 @@ export function Map({ statusData, onFieldClick }: MapProps) {
         const geoName = props?.name ?? 'Okänt område'
         const fmName = geoNameToFmName(geoName, fmNamesRef.current)
 
+        console.log('[Polygon click]', {
+          geoName,
+          fmName,
+          properties: props,
+          geometry: feature.geometry,
+          matched: fmNamesRef.current.has(fmName),
+          geoNamesLoaded: geoNamesRef.current.size,
+        })
+
         onFieldClick(fmName)
 
         if (popupRef.current) popupRef.current.remove()
