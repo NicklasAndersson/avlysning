@@ -17,6 +17,12 @@ frontend/build/
 *.swo
 *~
 
+# Wrangler
+.wrangler/
+
+# TypeScript build info
+*.tsbuildinfo
+
 # OS
 .DS_Store
 Thumbs.db
@@ -32,6 +38,7 @@ scraper/downloads/
 # Cache and temp files
 tmp/
 scraper/pdfs/
+*.pmtiles
 
 # Temp files (geodata processing etc)
 tmp/

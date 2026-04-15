@@ -11,3 +11,11 @@
 .disclaimer strong {
   color: #664d03;
 }
+
+@media (max-width: 600px) {
+  .disclaimer {
+    font-size: 0.65rem;
+    padding: 0.3rem 0.6rem;
+    padding-bottom: max(0.3rem, env(safe-area-inset-bottom));
+  }
+}

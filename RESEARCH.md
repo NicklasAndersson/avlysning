@@ -1,12 +1,16 @@
 # Research — FM Avlysning
 
+> Forskning utförd innan implementation. Markerade med ✅ = löst/implementerat, se `docs/DECISIONS.md` för motiveringarna.
+
 ## Scraping-analys per källa
 
-### 1. Försvarsmakten — Samlingssida
+### 1. Försvarsmakten — Samlingssida ✅
 
 **URL:** https://www.forsvarsmakten.se/regler-och-tillstand/skjutfalt-och-forbud/
 
-**Sidstruktur:**
+> **Löst:** HTML-scraping övergavs till förmån för FM:s interna JSON-API (`forsvarsmakten.se/api/searchapi/get-firing-ranges?lang=sv`). Paginerat JSON med `&skip=N` (12 per sida). Returnerar alla 75 fält med dokument-URLer direkt. Se `docs/DECISIONS.md` → "FM:s interna JSON-API".
+
+**Sidstruktur (historisk referens):**
 - Paginerad lista med 79 skjutfält, 12 per sida
 - Server-side rendering (ingen JS krävs för paginering)
 - Varje fält visar: Namn | Arrangör (regiment) | Plats
@@ -22,20 +26,22 @@
 - Ledningsregementet
 - Marinbasen
 
-**Scraping-strategi:**
-1. Hämta alla paginerade sidor (7 sidor à 12 fält)
-2. Extrahera länk till varje fälts individuella sida
-3. På individuella sidor: hitta `<a>`-taggar med `href` som slutar på `.pdf`
-4. Filtrera PDF-länkar som innehåller "skjutvarning" eller "tilltradesforbud"
-5. Ladda ner PDF → extrahera text med pdfplumber → parsa datum/tider
+**Scraping-strategi (ersatt av JSON API):**
+1. ~~Hämta alla paginerade sidor (7 sidor à 12 fält)~~
+2. ~~Extrahera länk till varje fälts individuella sida~~
+3. ~~På individuella sidor: hitta `<a>`-taggar med `href` som slutar på `.pdf`~~
+4. ~~Filtrera PDF-länkar som innehåller "skjutvarning" eller "tilltradesforbud"~~
+5. Ladda ner PDF → extrahera text med pdfplumber → parsa datum/tider ✅
 
 **Anti-scraping:** Inget observerat. Standard statlig webbplats.
 
-**Paginerings-URL-mönster:** Behöver verifieras — troligen query-parameter som `?page=2` eller liknande.
+**Paginerings-URL-mönster:** ✅ Löst via JSON API (`&skip=N`, 12 per sida).
 
 ---
 
-### 2. FM Undersidor (separata)
+### 2. FM Undersidor (separata) ✅
+
+> **Löst:** Dessa sidor behöver inte scrapas separat — JSON API:et returnerar alla fält inklusive dem som har egna undersidor.
 
 | Fält | URL |
 |------|-----|
@@ -43,11 +49,11 @@
 | Tåme | https://www.forsvarsmakten.se/regler-och-tillstand/skjutfalt-och-forbud/tame-skjutfalt/ |
 | Amf1 (Stockholms skärgård) | https://www.forsvarsmakten.se/sv/organisation/stockholms-amfibieregemente-amf-1/stockholms-amfibieregementes-skjutfalt-och-tilltradesforbud/ |
 
-Samma strategi som samlingssidan — hitta PDF-länkar, ladda ner, parsa.
+Samma strategi som samlingssidan — hitta PDF-länkar, ladda ner, parsa. ✅ Hanteras nu via JSON API.
 
 ---
 
-### 3. skjutfalten.se (Bofors / Villingsberg)
+### 3. skjutfalten.se (Bofors / Villingsberg) ✅
 
 **URL:** https://skjutfalten.se/  
 **Avlysningar:** https://skjutfalten.se/avlysningar/DD/MM/YYYY
@@ -86,7 +92,9 @@ Samma strategi som samlingssidan — hitta PDF-länkar, ladda ner, parsa.
 
 ---
 
-### 4. Kommunsidor
+### 4. Kommunsidor ✅
+
+> **Löst:** Implementerad scraper i `scraper/scrapers/kommun.py`.
 
 | Kommun | Fält | URL |
 |--------|------|-----|
@@ -99,10 +107,10 @@ Samma strategi som samlingssidan — hitta PDF-länkar, ladda ner, parsa.
 
 ---
 
-## Geodata — Skjutfältspolygoner
+## Geodata — Skjutfältspolygoner ✅
 
 ### Status
-Ingen officiell GeoJSON finns tillgänglig publikt.
+✅ **Löst.** 313 polygoner (161 namngivna) extraherade från Geofabrik + ogr2ogr. Sparade i `data/skjutfalt.geojson`. Namnmatchning mot FM-fält: 64/79 (81%) via `field_config.json` + `nameMapping.ts`. Se `docs/DECISIONS.md` och `docs/MAPPING.md`.
 
 ### Primär källa: Geofabrik Sweden Extract + ogr2ogr
 
@@ -153,7 +161,7 @@ out geom;
 **OBS:** Overpass kan timeouta vid stora queries. Geofabrik + ogr2ogr är mer tillförlitligt.
 
 **Licens:** ODbL (Open Database License) — öppen, kräver attribution  
-**Kvalitet:** Varierar. Uppskattningsvis 20–40 av 79 fält kan finnas.  
+**Resultat:** 313 features (`fclass='military'`), varav 161 namngivna. 64 av 79 FM-fält matchade.  
 **Endpoint:** https://overpass-api.de/api/interpreter
 
 ### Alternativa källor
@@ -164,5 +172,5 @@ out geom;
 | Lantmäteriet NMK50 | Raster | Varierar | Militär topografisk karta |
 | FM direkt (exp-hkv@mil.se) | Okänt | Okänt | Kan nekas av säkerhetsskäl |
 
-### ID-mappning
-Varje polygon i GeoJSON behöver ett `id` som matchar `skjutfalt_status.json`. Förslag: slugifierat namn, t.ex. `arvidsjaurs-skjutfalt`, `bofors-skjutfalt`.
+### ID-mappning ✅
+✅ **Löst.** Använder `field_config.json` som mappar FM-fältnamn → OSM polygon-ID:n (`osm_ids`). Frontend bygger omvänd lookup (`osm_id` → FM-namn) vid laddning. Se `docs/DECISIONS.md` → "Namnmatchning via field_config.json".

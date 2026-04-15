@@ -16,6 +16,7 @@ from pathlib import Path
 from scrapers.fm import FMScraper
 from scrapers.bofors import BoforsScraper
 from scrapers.kommun import KommunScraper
+from upload import upload_to_r2
 
 logging.basicConfig(
     level=logging.INFO,
@@ -34,10 +35,30 @@ USER_AGENT = "FM-Avlysning-Scraper/0.1 (https://github.com/fm-avlysning; kontakt
 
 
 def merge_results(all_fields: list[dict]) -> dict:
-    """Slår ihop resultat från alla scrapers till ett enhetligt JSON-dokument."""
+    """Slår ihop resultat från alla scrapers till ett enhetligt JSON-dokument.
+
+    Fält med samma id slås ihop: restriktioner samlas, och extra källinfo bevaras.
+    FM-källa prioriteras för namn/source_url om den finns.
+    """
+    merged: dict[str, dict] = {}
+    for field in all_fields:
+        fid = field["id"]
+        if fid not in merged:
+            merged[fid] = dict(field)
+        else:
+            existing = merged[fid]
+            # Lägg till restriktioner från den nya källan
+            existing.setdefault("restrictions", []).extend(
+                field.get("restrictions", [])
+            )
+            # Behåll FM som primär källa om den finns
+            if field.get("source") == "forsvarsmakten.se":
+                existing["source"] = field["source"]
+                existing["source_url"] = field.get("source_url", existing.get("source_url"))
+
     return {
         "last_updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "fields": all_fields,
+        "fields": list(merged.values()),
     }
 
 
@@ -65,6 +86,11 @@ def main() -> None:
         type=int,
         default=86400,
         help="Cache-giltighetstid i sekunder (default: 86400 = 1 dygn)",
+    )
+    parser.add_argument(
+        "--upload",
+        action="store_true",
+        help="Ladda upp resultat till R2 via S3 efter scraping (kräver S3_*-miljövariabler)",
     )
     args = parser.parse_args()
 
@@ -99,6 +125,11 @@ def main() -> None:
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     logger.info("Resultat sparat till %s (%d fält totalt)", args.output, len(all_fields))
+
+    if args.upload:
+        logger.info("Laddar upp resultat till R2...")
+        upload_to_r2(args.output.parent)
+        logger.info("Upload klar")
 
 
 if __name__ == "__main__":

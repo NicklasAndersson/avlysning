@@ -1,13 +1,20 @@
 import type { FieldStatus, Restriction } from '../types'
 import './InfoPanel.css'
 
+function formatDateISO(d: Date): string {
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+}
+
 interface InfoPanelProps {
   statusData: FieldStatus | null
   selectedField: string | null
   onClose: () => void
+  selectedDateTime: Date
+  isPermanentBan?: boolean
 }
 
-export function InfoPanel({ statusData, selectedField, onClose }: InfoPanelProps) {
+export function InfoPanel({ statusData, selectedField, onClose, selectedDateTime, isPermanentBan }: InfoPanelProps) {
   if (!selectedField || !statusData) return null
 
   const field = statusData.fields.find(f => f.name === selectedField)
@@ -19,17 +26,24 @@ export function InfoPanel({ statusData, selectedField, onClose }: InfoPanelProps
           <button onClick={onClose} className="close-btn" aria-label="Stäng">✕</button>
         </div>
         <div className="info-panel-body">
-          <div className="restrictions clear">
-            <p>Vi saknar data för detta område. Det kan bero på att fältet inte ingår i våra källor ännu, eller att det inte har några aktuella avlysningar.</p>
+          <div className={`restrictions ${isPermanentBan ? 'active' : 'clear'}`}>
+            {isPermanentBan ? (
+              <p>⛔ Permanent tillträdesförbud. Detta är ett militärt område med ständigt tillträdesförbud för obehöriga.</p>
+            ) : (
+              <p>Vi saknar data för detta område. Det kan bero på att fältet inte ingår i våra källor ännu, eller att det inte har några aktuella avlysningar.</p>
+            )}
           </div>
         </div>
       </div>
     )
   }
 
-  const today = new Date().toISOString().split('T')[0]!
-  const todayRestrictions = field.restrictions.filter(r => r.date === today)
-  const futureRestrictions = field.restrictions.filter(r => r.date > today)
+  const selectedDate = formatDateISO(selectedDateTime)
+  const isToday = selectedDate === formatDateISO(new Date())
+  const dateRestrictions = field.restrictions.filter(r => r.date === selectedDate)
+  const futureRestrictions = field.restrictions.filter(r => r.date > selectedDate)
+
+  const dateLabel = isToday ? 'idag' : selectedDate
 
   // Samla unika PDF-URLer
   const pdfUrls = [...new Set(
@@ -63,14 +77,14 @@ export function InfoPanel({ statusData, selectedField, onClose }: InfoPanelProps
           )}
         </div>
 
-        {todayRestrictions.length > 0 ? (
+        {dateRestrictions.length > 0 ? (
           <div className="restrictions active">
-            <h3>Aktiva restriktioner idag</h3>
-            <RestrictionList restrictions={todayRestrictions} />
+            <h3>Aktiva restriktioner {dateLabel}</h3>
+            <RestrictionList restrictions={dateRestrictions} />
           </div>
         ) : (
           <div className="restrictions clear">
-            <p>Inga aktiva restriktioner idag.</p>
+            <p>Inga aktiva restriktioner {dateLabel}.</p>
           </div>
         )}
 

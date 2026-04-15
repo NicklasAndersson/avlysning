@@ -2,6 +2,7 @@
  * Typer och laddning av fältkonfig (field_config.json).
  * Konfigurerar vilka GeoJSON-polygoner (osm_id) som hör till varje FM-fält.
  */
+import { dataUrl } from './dataUrl'
 
 export interface FieldConfigEntry {
   osm_ids: string[]
@@ -10,6 +11,7 @@ export interface FieldConfigEntry {
 
 export interface FieldConfig {
   fields: Record<string, FieldConfigEntry>
+  permanent_ban_osm_ids?: string[]
 }
 
 /**
@@ -29,6 +31,6 @@ export function buildOsmIdToFmName(config: FieldConfig): Record<string, string> 
  * Ladda field_config.json.
  */
 export async function loadFieldConfig(): Promise<FieldConfig> {
-  const resp = await fetch('/data/field_config.json')
+  const resp = await fetch(dataUrl('field_config.json'))
   return resp.json()
 }

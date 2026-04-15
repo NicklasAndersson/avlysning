@@ -59,7 +59,8 @@ class BoforsScraper(BaseScraper):
         resp = self.fetch(url)
         soup = BeautifulSoup(resp.text, "lxml")
 
-        restrictions: list[dict] = []
+        # Samla sektorer per (datum, typ) för att slå ihop till en restriktion
+        grouped: dict[str, list[str]] = {}
         date_str = target_date.isoformat()
 
         # Metod 1: Extrahera från bildfilnamn (map_area_X_color.png)
@@ -72,11 +73,18 @@ class BoforsScraper(BaseScraper):
                 status = COLOR_MAP.get(color, "okand")
 
                 if status == "tilltradesforbud":
-                    restrictions.append({
-                        "date": date_str,
-                        "type": "tilltradesforbud",
-                        "sectors": [sector],
-                    })
+                    grouped.setdefault(status, []).append(sector)
+
+        # Bygg ihop restriktioner med sammanslagna sektorer
+        restrictions: list[dict] = []
+        for restriction_type, sectors in grouped.items():
+            # Sortera: bokstäver först (A–E), sedan siffror (1–10)
+            sectors.sort(key=lambda s: (s.isdigit(), int(s) if s.isdigit() else 0, s))
+            restrictions.append({
+                "date": date_str,
+                "type": restriction_type,
+                "sectors": sectors,
+            })
 
         # Metod 2: Försök extrahera tider och sektorer från text
         text_content = soup.get_text()
@@ -85,9 +93,10 @@ class BoforsScraper(BaseScraper):
             # Blindröjning vanligtvis 07:00-16:00
             self.logger.info("Blindröjningsinformation hittad för %s", date_str)
 
+        total_sectors = sum(len(r["sectors"]) for r in restrictions)
         self.logger.info(
-            "skjutfalten.se %s: %d aktiva tillträdesförbud",
+            "skjutfalten.se %s: %d sektorer med tillträdesförbud",
             date_str,
-            len(restrictions),
+            total_sectors,
         )
         return restrictions

@@ -1,41 +1,50 @@
 import type { FieldStatus } from '../types'
 import './FieldList.css'
 
+function formatDateISO(d: Date): string {
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+}
+
 interface FieldListProps {
   statusData: FieldStatus | null
   onFieldClick: (name: string) => void
+  selectedDateTime: Date
 }
 
-export function FieldList({ statusData, onFieldClick }: FieldListProps) {
+export function FieldList({ statusData, onFieldClick, selectedDateTime }: FieldListProps) {
   if (!statusData) return null
 
-  const today = new Date().toISOString().split('T')[0]!
+  const selectedDate = formatDateISO(selectedDateTime)
+  const isToday = selectedDate === formatDateISO(new Date())
 
   const activeFields = statusData.fields
-    .filter(f => f.restrictions.some(r => r.date === today))
+    .filter(f => f.restrictions.some(r => r.date === selectedDate))
     .map(f => ({
       ...f,
-      todayRestrictions: f.restrictions.filter(r => r.date === today),
+      dateRestrictions: f.restrictions.filter(r => r.date === selectedDate),
     }))
     .sort((a, b) => a.name.localeCompare(b.name, 'sv'))
 
-  const inactiveFields = statusData.fields
-    .filter(f => f.restrictions.length > 0 && !f.restrictions.some(r => r.date === today))
+  const upcomingFields = statusData.fields
+    .filter(f => f.restrictions.length > 0 && !f.restrictions.some(r => r.date === selectedDate))
     .sort((a, b) => a.name.localeCompare(b.name, 'sv'))
+
+  const dateLabel = isToday ? selectedDate : `${selectedDate} (valt datum)`
 
   return (
     <div className="field-list">
       <div className="field-list-header">
-        <h2>Skjutfält — {today}</h2>
+        <h2>Skjutfält — {dateLabel}</h2>
         <span className="field-count">
-          {activeFields.length} avlysta idag
+          {activeFields.length} avlysta {isToday ? 'idag' : 'denna dag'}
         </span>
       </div>
 
       <div className="field-list-body">
         {activeFields.length > 0 && (
           <section>
-            <h3 className="section-title active">Avlysta idag</h3>
+            <h3 className="section-title active">Avlysta {isToday ? 'idag' : selectedDate}</h3>
             {activeFields.map(f => (
               <button
                 key={f.id}
@@ -44,7 +53,7 @@ export function FieldList({ statusData, onFieldClick }: FieldListProps) {
               >
                 <span className="field-name">{f.name}</span>
                 <span className="field-times">
-                  {f.todayRestrictions.map((r, i) => (
+                  {f.dateRestrictions.map((r, i) => (
                     <span key={i} className="time-badge">
                       {r.start}–{r.end}
                     </span>
@@ -55,12 +64,12 @@ export function FieldList({ statusData, onFieldClick }: FieldListProps) {
           </section>
         )}
 
-        {inactiveFields.length > 0 && (
+        {upcomingFields.length > 0 && (
           <section>
             <h3 className="section-title upcoming">Kommande restriktioner</h3>
-            {inactiveFields.map(f => {
+            {upcomingFields.map(f => {
               const next = f.restrictions
-                .filter(r => r.date > today)
+                .filter(r => r.date > selectedDate)
                 .sort((a, b) => a.date.localeCompare(b.date))[0]
               return (
                 <button

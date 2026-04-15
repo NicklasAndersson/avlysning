@@ -4,6 +4,8 @@ Denna tabell innehåller de exakta webbadresserna (URL) som behövs för att aut
 
 1. Försvarsmakten (Huvudkällor)
 
+> **Primär källa:** FM:s interna JSON-API: `https://www.forsvarsmakten.se/api/searchapi/get-firing-ranges?lang=sv` (paginerat med `&skip=N`, 12 per sida). Returnerar alla 75 fält med dokument-URLer direkt. Implementerad i `scraper/scrapers/fm.py`. HTML-sidorna nedan behöver inte scrapas separat.
+
 Försvarsmakten samlar den absoluta merparten av alla skjutvarningar (i PDF-format) på sin centrala sida. Länken nedan är den absolut viktigaste att skrapa. Vissa stora fält (som Älvdalen och Tåme) har dock brutits ut till egna undersidor.
 
 Skjutfält / Resurs
@@ -88,12 +90,10 @@ https://www.vargarda.se/bo-bygga-och-miljo/remmene-skjutfalt.html
 
 Strategi för Skrapan (Python)
 
-Ett bra första steg är att fokusera enbart på https://www.forsvarsmakten.se/regler-och-tillstand/skjutfalt-och-forbud/.
+> **Nuvarande implementation:** Använder FM:s JSON-API istället för HTML-scraping. Se `docs/DECISIONS.md` → "FM:s interna JSON-API".
 
-Använd biblioteket requests för att hämta HTML-koden från URL:en.
-
-Leta efter alla <a>-taggar där href slutar på .pdf.
-
-Filtrera länkarna så att du bara behåller de som innehåller orden skjutvarning eller tilltradesforbud.
-
-Ladda ner dessa PDF:er till din Docker-container för vidare analys med t.ex. pdfplumber.
+1. Hämta alla fält via JSON-API:et (`forsvarsmakten.se/api/searchapi/get-firing-ranges?lang=sv&skip=N`).
+2. Filtrera dokument-URLer som innehåller `skjutvarning`, `tilltradesforbud`, `avlysning` eller `varningsmeddelande`.
+3. Ladda ner dessa PDF:er och extrahera text med pdfplumber.
+4. Matcha mot 19 formatspecifika parsers (se `scraper/scrapers/fm_parsers/`).
+5. Deduplicera restriktioner (samma datum+tid+typ+sektorer) och spara till `data/skjutfalt_status.json`.

@@ -23,12 +23,12 @@
 ### Geofabrik-extrakt + ogr2ogr istället för Overpass API
 **Beslut:** Ladda ner `sweden-latest-free.shp.zip` från Geofabrik, filtrera med `ogr2ogr -where "fclass = 'military'"`.
 **Motivering:** Overpass API timear ut för stora area-queries. Geofabrik-filen ger komplett data, ogr2ogr finns installerat. Resulterar i 313 features (161 namngivna).
-**Nackdel:** Namnen i OSM matchar inte alltid FM:s officiella namn (57% match-rate). Kräver fuzzy matching eller manuell mappning.
+**Nackdel:** Namnen i OSM matchar inte alltid FM:s officiella namn. Krävde manuell mappning — se nedan.
 
-### Namnmatchning via `name`-property
-**Beslut:** Matcha GeoJSON-features mot status-data via `properties.name === field.name`.
-**Motivering:** Enklaste lösningen. Fungerar för 43/75 fält direkt.
-**Känt problem:** 32 fält omatchade. FM-namn som "Bodens södra och Kusträsks övnings- och skjutfält" finns inte i OSM. Planerad lösning: mappningstabell eller fuzzy matching.
+### Namnmatchning via `field_config.json`
+**Beslut:** Tvåstegsprocess: (1) `field_config.json` mappar FM-fältnamn → lista av OSM polygon-ID:n. (2) `nameMapping.ts` hanterar namnvarianter (case, alias, namnlösa polygoner).
+**Motivering:** Enkel `name`-matchning fungerade för 45/79 fält (57%). Med manuella mappningar och OSM-ID-matchning: 64/79 (81%). Kvarstående 15 fält saknar polygon i OSM helt.
+**Känt problem:** 15 fält omatchade (Askö, Eksjö, Gisslingö m.fl.) — behöver manuella polygoner eller framtida OSM-bidrag. Se `docs/MAPPING.md`.
 
 ## Frontend
 
