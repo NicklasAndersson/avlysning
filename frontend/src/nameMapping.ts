@@ -25,6 +25,13 @@ const FM_TO_GEO: Record<string, string> = {
   'bodens södra och kusträsks övnings- och skjutfält': 'Bodens södra skjutfält',
   'härnösands, härnöns och skärsvikens skjutfält': 'Skärsvikens skjutfält',
   'lombens och orrträsks skjutfält': 'Lombens skjutfält',
+
+  // Bofors / kommun-namn → OSM-namn
+  'bofors skjutfält': 'SAAB Bofors Test Center',
+  'bollö skjutfält': 'Bollö övningsfält',
+  'falun skjutfält': 'Faluns skjutfält',
+  'kungsängens skjutfält': 'Kungsängenfältet',
+  'såtenäs skjutfält': 'Såtenäs flygplats - Skaraborgs flygflottilj F 7',
 }
 
 /**

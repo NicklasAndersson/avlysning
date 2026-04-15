@@ -32,10 +32,10 @@ Lokal MVP som visar aktiva avlysningar för svenska skjut- och övningsfält på
 
 ## Kända begränsningar ⚠️
 
-### Namnmatchning GeoJSON ↔ Status (43/75 = 57%)
-FM använder långa officiella namn (t.ex. "Bodens södra och Kusträsks övnings- och skjutfält") medan OSM har kortare namn ("Bodens skjutfält"). 32 fält saknar koppling till kartpolygon. Behöver fuzzy matching eller en manuell mappningstabell.
+### Namnmatchning GeoJSON ↔ Status (64/79 = 81%)
+19 manuella mappningar i `nameMapping.ts`. 15 fält saknar GeoJSON-polygon i OSM-datat — dessa behöver manuella polygoner.
 
-Omatchade fält inkluderar bl.a.: Askö, Bollö, Bråt, Eksjö, Grebbegården, Husie, Kalixfors, Karlskrona inre öar, Kungsängen, Lombens/Orrträsk, Norra Åsum, Sisjön, Skillingaryd, Tåme, Villingsberg, Vällinge, m.fl.
+Omatchade (saknar polygon): Askö, Eksjö, Gisslingö, Husie, Korsö, Kråk, Mellsten, Norra Åsum, Nytorp, Romeleklint, Roten, Sisjön, Stabbo, Söderarm, Önnarp.
 
 ### Omatchade PDFer — LÖST ✅
 Alla FM-PDFer (163 st) parsas nu korrekt. 19 parsers + 5 snabbkontroller (statisk info, ingen farlig verksamhet, alla NEJ, inget tillträdesförbud, övningsinformation).
@@ -63,8 +63,8 @@ Alla FM-PDFer (163 st) parsas nu korrekt. 19 parsers + 5 snabbkontroller (statis
 | Snabbkontroller (pre-checks) | 5 |
 | Omatchade PDFer | **0** |
 | GeoJSON-polygoner | 313 (161 namngivna) |
-| Namnmatchningar (exakt) | 43/79 |
-| Namnmatchningar (med mappning) | 59/79 |
+| Namnmatchningar (exakt + case) | 45/79 |
+| Namnmatchningar (med mappning) | 64/79 |
 | Restriktioner (dedupade) | 858 |
 | Fält med aktiva restriktioner | 62 |
 | Frontend-komponenter | 4 (Map, InfoPanel, FieldList, Disclaimer) |
