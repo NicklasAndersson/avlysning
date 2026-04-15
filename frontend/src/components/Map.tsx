@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import type { FieldStatus } from '../types'
@@ -15,12 +15,13 @@ interface MapProps {
 const SWEDEN_CENTER: [number, number] = [16.5, 62.5]
 const SWEDEN_ZOOM = 4.5
 
-export function Map({ statusData, onFieldClick }: MapProps) {
+export function Map({ statusData, onFieldClick, selectedField }: MapProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<maplibregl.Map | null>(null)
   const popupRef = useRef<maplibregl.Popup | null>(null)
   const fmNamesRef = useRef<Set<string>>(new Set())
   const geoNamesRef = useRef<Set<string>>(new Set())
+  const geojsonRef = useRef<GeoJSON.FeatureCollection | null>(null)
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -94,8 +95,10 @@ export function Map({ statusData, onFieldClick }: MapProps) {
       // Klick-hantering
       map.on('click', 'skjutfalt-fill', (e) => {
         if (!e.features?.length) return
-        const feature = e.features[0]
-        if (!feature) return
+
+        // Prefer a feature with a name (nameless polygons are often parts of named relations)
+        const namedFeature = e.features.find(f => f.properties?.name)
+        const feature = namedFeature ?? e.features[0]!
 
         const props = feature.properties
         const geoName = props?.name ?? 'Okänt område'
@@ -104,8 +107,7 @@ export function Map({ statusData, onFieldClick }: MapProps) {
         console.log('[Polygon click]', {
           geoName,
           fmName,
-          properties: props,
-          geometry: feature.geometry,
+          allFeatures: e.features.map(f => f.properties),
           matched: fmNamesRef.current.has(fmName),
           geoNamesLoaded: geoNamesRef.current.size,
         })
@@ -142,6 +144,7 @@ export function Map({ statusData, onFieldClick }: MapProps) {
     fetch('/data/skjutfalt.geojson')
       .then(r => r.json())
       .then((geojson: GeoJSON.FeatureCollection) => {
+        geojsonRef.current = geojson
         const names = new Set<string>()
         for (const f of geojson.features) {
           const n = (f.properties as Record<string, unknown>)?.name
@@ -174,7 +177,60 @@ export function Map({ statusData, onFieldClick }: MapProps) {
     map.setPaintProperty('skjutfalt-fill', 'fill-color', colorExpression)
   }, [statusData])
 
+  // Flyga till valt fält när det väljs från listan
+  const flyToField = useCallback((fieldName: string) => {
+    const map = mapRef.current
+    const geojson = geojsonRef.current
+    if (!map || !geojson) return
+
+    const geoName = fmNameToGeoName(fieldName, geoNamesRef.current)
+
+    // Hitta feature med matchande namn
+    const feature = geojson.features.find(
+      f => (f.properties as Record<string, unknown>)?.name === geoName
+    )
+    if (!feature) return
+
+    // Beräkna bbox
+    const coords = getAllCoords(feature.geometry)
+    if (coords.length === 0) return
+
+    let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity
+    for (const [lng, lat] of coords) {
+      if (lng < minLng) minLng = lng
+      if (lng > maxLng) maxLng = lng
+      if (lat < minLat) minLat = lat
+      if (lat > maxLat) maxLat = lat
+    }
+
+    map.fitBounds(
+      [[minLng, minLat], [maxLng, maxLat]],
+      { padding: 80, maxZoom: 13, duration: 1500 }
+    )
+  }, [])
+
+  useEffect(() => {
+    if (selectedField) {
+      flyToField(selectedField)
+    }
+  }, [selectedField, flyToField])
+
   return <div ref={containerRef} className="map-container" />
+}
+
+function getAllCoords(geometry: GeoJSON.Geometry): number[][] {
+  switch (geometry.type) {
+    case 'Polygon':
+      return geometry.coordinates.flat()
+    case 'MultiPolygon':
+      return geometry.coordinates.flat(2)
+    case 'Point':
+      return [geometry.coordinates]
+    case 'LineString':
+      return geometry.coordinates
+    default:
+      return []
+  }
 }
 
 function buildColorExpression(
