@@ -96,16 +96,26 @@ export function Map({ statusData, onFieldClick, selectedField }: MapProps) {
       map.on('click', 'skjutfalt-fill', (e) => {
         if (!e.features?.length) return
 
-        // Prefer a feature with a name (nameless polygons are often parts of named relations)
-        const namedFeature = e.features.find(f => f.properties?.name)
-        const feature = namedFeature ?? e.features[0]!
-
-        const props = feature.properties
-        // Resolve name: direct name → osm_id lookup → 'Okänt område'
-        const geoName = props?.name
-          ?? OSM_ID_TO_GEO_NAME[String(props?.osm_id)]
-          ?? 'Okänt område'
-        const fmName = geoNameToFmName(geoName, fmNamesRef.current)
+        // Resolve each feature to a geoName, pick the one that maps to a known FM field
+        let geoName = 'Okänt område'
+        let fmName = geoName
+        for (const feat of e.features) {
+          const p = feat.properties
+          const candidate = p?.name
+            ?? OSM_ID_TO_GEO_NAME[String(p?.osm_id)]
+          if (!candidate) continue
+          const resolved = geoNameToFmName(candidate, fmNamesRef.current)
+          if (fmNamesRef.current.has(resolved)) {
+            geoName = candidate
+            fmName = resolved
+            break
+          }
+          // Keep first valid name as fallback
+          if (geoName === 'Okänt område') {
+            geoName = candidate
+            fmName = resolved
+          }
+        }
 
         console.log('[Polygon click]', {
           geoName,
