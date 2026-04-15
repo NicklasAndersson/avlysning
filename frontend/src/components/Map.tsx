@@ -107,7 +107,7 @@ export function Map({ statusData, onFieldClick }: MapProps) {
 
         popupRef.current = new maplibregl.Popup({ closeOnClick: true })
           .setLngLat(e.lngLat)
-          .setHTML(`<strong>${name}</strong>`)
+          .setHTML(`<strong>${geoName}</strong>`)
           .addTo(map)
       })
 
@@ -128,24 +128,24 @@ export function Map({ statusData, onFieldClick }: MapProps) {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Ladda GeoJSON-namn en gång när kartan laddats
+  // Ladda alla GeoJSON-namn direkt från filen (ej querySourceFeatures som saknar icke-synliga)
   useEffect(() => {
-    const map = mapRef.current
-    if (!map) return
-    const onIdle = () => {
-      const source = map.getSource('skjutfalt') as maplibregl.GeoJSONSource | undefined
-      if (!source) return
-      const features = map.querySourceFeatures('skjutfalt')
-      const names = new Set<string>()
-      for (const f of features) {
-        const n = f.properties?.name
-        if (n) names.add(n)
-      }
-      geoNamesRef.current = names
-    }
-    map.on('idle', onIdle)
-    return () => { map.off('idle', onIdle) }
-  }, [])
+    fetch('/data/skjutfalt.geojson')
+      .then(r => r.json())
+      .then((geojson: GeoJSON.FeatureCollection) => {
+        const names = new Set<string>()
+        for (const f of geojson.features) {
+          const n = (f.properties as Record<string, unknown>)?.name
+          if (typeof n === 'string') names.add(n)
+        }
+        geoNamesRef.current = names
+        // Re-trigger coloring now that geoNames is populated
+        if (mapRef.current && statusData) {
+          const expr = buildColorExpression(statusData, names)
+          mapRef.current.setPaintProperty('skjutfalt-fill', 'fill-color', expr)
+        }
+      })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Uppdatera färger när statusData ändras
   useEffect(() => {
@@ -176,7 +176,7 @@ function buildColorExpression(
     return '#888888'
   }
 
-  const today = new Date().toISOString().split('T')[0]
+  const today = new Date().toLocaleDateString('sv-SE')
   const cases: (string | maplibregl.ExpressionSpecification)[] = ['case']
 
   // Bygg set av GeoJSON-namn med aktiva restriktioner idag
