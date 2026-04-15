@@ -11,7 +11,21 @@ export function InfoPanel({ statusData, selectedField, onClose }: InfoPanelProps
   if (!selectedField || !statusData) return null
 
   const field = statusData.fields.find(f => f.name === selectedField)
-  if (!field) return null
+  if (!field) {
+    return (
+      <div className="info-panel">
+        <div className="info-panel-header">
+          <h2>{selectedField}</h2>
+          <button onClick={onClose} className="close-btn" aria-label="Stäng">✕</button>
+        </div>
+        <div className="info-panel-body">
+          <div className="restrictions clear">
+            <p>Vi saknar data för detta område. Det kan bero på att fältet inte ingår i våra källor ännu, eller att det inte har några aktuella avlysningar.</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   const today = new Date().toISOString().split('T')[0]!
   const todayRestrictions = field.restrictions.filter(r => r.date === today)
