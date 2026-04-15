@@ -2,7 +2,7 @@ import { useEffect, useRef, useCallback } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import type { FieldStatus } from '../types'
-import { geoNameToFmName, fmNameToGeoName } from '../nameMapping'
+import { geoNameToFmName, fmNameToGeoName, OSM_ID_TO_GEO_NAME } from '../nameMapping'
 import './Map.css'
 
 interface MapProps {
@@ -101,7 +101,10 @@ export function Map({ statusData, onFieldClick, selectedField }: MapProps) {
         const feature = namedFeature ?? e.features[0]!
 
         const props = feature.properties
-        const geoName = props?.name ?? 'Okänt område'
+        // Resolve name: direct name → osm_id lookup → 'Okänt område'
+        const geoName = props?.name
+          ?? OSM_ID_TO_GEO_NAME[String(props?.osm_id)]
+          ?? 'Okänt område'
         const fmName = geoNameToFmName(geoName, fmNamesRef.current)
 
         console.log('[Polygon click]', {
@@ -255,11 +258,22 @@ function buildColorExpression(
     }
   }
 
+  // Färglägg namngivna polygoner via name-property
   for (const geoName of knownGeoNames) {
     cases.push(
       ['==', ['get', 'name'], geoName],
       activeGeoNames.has(geoName) ? '#f44336' : '#4CAF50',
     )
+  }
+
+  // Färglägg namnlösa polygoner via osm_id → geoName-mappning
+  for (const [osmId, geoName] of Object.entries(OSM_ID_TO_GEO_NAME)) {
+    if (knownGeoNames.has(geoName)) {
+      cases.push(
+        ['==', ['get', 'osm_id'], Number(osmId)],
+        activeGeoNames.has(geoName) ? '#f44336' : '#4CAF50',
+      )
+    }
   }
 
   // Default: grå
