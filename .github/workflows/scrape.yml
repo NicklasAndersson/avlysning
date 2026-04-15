@@ -19,9 +19,17 @@ jobs:
 
       - name: Run scraper
         run: |
+          mkdir -p output
           docker run --rm \
+            -v ${{ github.workspace }}/output:/app/data \
             -e S3_ENDPOINT_URL="${{ secrets.S3_ENDPOINT_URL }}" \
             -e S3_ACCESS_KEY_ID="${{ secrets.S3_ACCESS_KEY_ID }}" \
             -e S3_SECRET_ACCESS_KEY="${{ secrets.S3_SECRET_ACCESS_KEY }}" \
             -e S3_BUCKET_NAME="${{ secrets.S3_BUCKET_NAME }}" \
             ghcr.io/nicklasandersson/avlysning-scraper:latest
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: skjutfalt_status
+          path: output/skjutfalt_status.json
+          retention-days: 30

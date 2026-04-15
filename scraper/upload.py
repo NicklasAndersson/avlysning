@@ -62,10 +62,10 @@ def upload_to_r2(data_dir: Path) -> None:
             s3.upload_file(
                 str(filepath),
                 bucket_name,
-                f"data/{filename}",
+                filename,
                 ExtraArgs={"ContentType": content_type},
             )
-            logger.info("Uppladdad: %s → s3://%s/data/%s", filepath, bucket_name, filename)
+            logger.info("Uppladdad: %s → s3://%s/%s", filepath, bucket_name, filename)
         except ClientError:
             logger.exception("Misslyckades att ladda upp %s", filename)
             raise
