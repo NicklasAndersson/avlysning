@@ -23,9 +23,12 @@ class FMScraper(BaseScraper):
         all_ranges = self._get_all_ranges()
         self.logger.info("Hittade %d skjutfält via API:et", len(all_ranges))
 
+        # Samla alla fält-ID:n för korsvalidering av PDF-kataloger
+        all_field_ids = {self._make_id(r.get("heading", "")) for r in all_ranges}
+
         for range_data in all_ranges:
             try:
-                field = self._process_range(range_data)
+                field = self._process_range(range_data, all_field_ids)
                 if field:
                     fields.append(field)
             except Exception:
@@ -63,7 +66,7 @@ class FMScraper(BaseScraper):
 
         return all_ranges
 
-    def _process_range(self, range_data: dict) -> dict | None:
+    def _process_range(self, range_data: dict, all_field_ids: set[str] | None = None) -> dict | None:
         """Bearbetar ett skjutfält: filtrera PDF:er, ladda ner och parsa."""
         heading = range_data.get("heading", "Okänt fält")
         documents = range_data.get("documents") or []
@@ -79,8 +82,36 @@ class FMScraper(BaseScraper):
         restriction_docs = [
             d for d in documents
             if any(kw in d.get("title", "").lower()
-                   for kw in ["tilltradesforbud", "skjutvarning", "avlysning"])
+                   for kw in ["tilltradesforbud", "skjutvarning", "avlysning", "varningsmeddelande"])
         ]
+
+        # Filtrera bort PDF:er som tillhör ett annat känt fält
+        if all_field_ids:
+            filtered_docs = []
+            for d in restriction_docs:
+                url_path = d.get("url", "").lower()
+                title = d.get("title", "").lower()
+                # Extrahera katalognamn efter skjutfalt-och-forbud/
+                parts = url_path.split("/")
+                pdf_field_dir = ""
+                for i, part in enumerate(parts):
+                    if part == "skjutfalt-och-forbud" and i + 1 < len(parts):
+                        pdf_field_dir = parts[i + 1]
+                        break
+                # Hoppa bara över om katalogen matchar ett ANNAT känt fält
+                if pdf_field_dir and not field_id.startswith(pdf_field_dir):
+                    # Kolla om katalogen matchar något annat fält-ID (prefix-match)
+                    matches_other = any(
+                        fid.startswith(pdf_field_dir) for fid in all_field_ids if fid != field_id
+                    )
+                    if matches_other:
+                        self.logger.warning(
+                            "PDF '%s' verkar tillhöra '%s', inte '%s' – hoppar över",
+                            title, pdf_field_dir, heading,
+                        )
+                        continue
+                filtered_docs.append(d)
+            restriction_docs = filtered_docs
 
         # Om inga specifika, ta alla icke-karta PDF:er
         if not restriction_docs:

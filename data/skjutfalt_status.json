@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-15T06:02:24Z",
+  "last_updated": "2026-04-15T07:36:36Z",
   "fields": [
     {
       "id": "almo-ovningsfalt",
@@ -8154,108 +8154,77 @@
       "id": "veckholms-skjutfalt",
       "name": "Veckholms skjutfält",
       "source": "forsvarsmakten.se",
-      "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/villingsberg/tilltradesforbud-villingsberg-v17_a1-2026.pdf",
+      "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/veckholm/varningsmeddelande-veckholm-v15-2026.pdf",
       "restrictions": [
         {
-          "date": "2026-04-20",
+          "date": "2026-04-13",
+          "start": "09:00",
+          "end": "24:00",
+          "type": "tilltradesforbud",
+          "sectors": [
+            "A-B"
+          ],
+          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/veckholm/varningsmeddelande-veckholm-v16-2026.pdf"
+        },
+        {
+          "date": "2026-04-14",
           "start": "00:00",
           "end": "24:00",
           "type": "tilltradesforbud",
           "sectors": [
-            "3",
-            "4",
-            "5",
-            "5A",
-            "8"
+            "A-B"
           ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/villingsberg/tilltradesforbud-villingsberg-v17_a1-2026.pdf"
+          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/veckholm/varningsmeddelande-veckholm-v16-2026.pdf"
         },
         {
-          "date": "2026-04-21",
-          "start": "00:00",
-          "end": "07:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "3",
-            "4",
-            "5",
-            "5A",
-            "8"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/villingsberg/tilltradesforbud-villingsberg-v17_a1-2026.pdf"
-        },
-        {
-          "date": "2026-04-21",
-          "start": "07:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "2",
-            "3",
-            "4",
-            "5",
-            "5A",
-            "8"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/villingsberg/tilltradesforbud-villingsberg-v17_a1-2026.pdf"
-        },
-        {
-          "date": "2026-04-22",
+          "date": "2026-04-15",
           "start": "00:00",
           "end": "24:00",
           "type": "tilltradesforbud",
           "sectors": [
-            "2",
-            "3",
-            "4",
-            "5",
-            "5A",
-            "8"
+            "A-B"
           ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/villingsberg/tilltradesforbud-villingsberg-v17_a1-2026.pdf"
+          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/veckholm/varningsmeddelande-veckholm-v16-2026.pdf"
         },
         {
-          "date": "2026-04-23",
+          "date": "2026-04-16",
           "start": "00:00",
-          "end": "07:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "2",
-            "3",
-            "4",
-            "5",
-            "5A",
-            "8"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/villingsberg/tilltradesforbud-villingsberg-v17_a1-2026.pdf"
-        },
-        {
-          "date": "2026-04-23",
-          "start": "07:00",
           "end": "24:00",
           "type": "tilltradesforbud",
           "sectors": [
-            "3",
-            "4",
-            "5",
-            "5A",
-            "8"
+            "A-B"
           ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/villingsberg/tilltradesforbud-villingsberg-v17_a1-2026.pdf"
+          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/veckholm/varningsmeddelande-veckholm-v16-2026.pdf"
         },
         {
-          "date": "2026-04-24",
+          "date": "2026-04-17",
+          "start": "00:00",
+          "end": "24:00",
+          "type": "tilltradesforbud",
+          "sectors": [
+            "A-B"
+          ],
+          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/veckholm/varningsmeddelande-veckholm-v16-2026.pdf"
+        },
+        {
+          "date": "2026-04-18",
+          "start": "00:00",
+          "end": "24:00",
+          "type": "tilltradesforbud",
+          "sectors": [
+            "A-B"
+          ],
+          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/veckholm/varningsmeddelande-veckholm-v16-2026.pdf"
+        },
+        {
+          "date": "2026-04-19",
           "start": "00:00",
           "end": "16:00",
           "type": "tilltradesforbud",
           "sectors": [
-            "3",
-            "4",
-            "5",
-            "5A",
-            "8"
+            "A"
           ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/villingsberg/tilltradesforbud-villingsberg-v17_a1-2026.pdf"
+          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/veckholm/varningsmeddelande-veckholm-v16-2026.pdf"
         }
       ]
     },
