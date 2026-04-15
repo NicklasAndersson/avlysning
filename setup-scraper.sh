@@ -82,13 +82,14 @@ echo "✓ Container fungerar"
 CRON_CMD="$CRON_SCHEDULE docker run --rm --env-file $ENV_FILE $IMAGE >> $LOG_DIR/scraper.log 2>&1"
 
 # Kontrollera om cron redan finns
-if crontab -l 2>/dev/null | grep -qF "avlysning-scraper"; then
+EXISTING_CRON=$(crontab -l 2>/dev/null || true)
+if echo "$EXISTING_CRON" | grep -qF "avlysning-scraper"; then
     echo ""
     echo "Befintligt cron-jobb hittades:"
-    crontab -l | grep "avlysning-scraper"
+    echo "$EXISTING_CRON" | grep "avlysning-scraper"
     read -rp "Vill du ersätta det? (j/N) " replace_cron
     if [[ "$replace_cron" == "j" || "$replace_cron" == "J" ]]; then
-        crontab -l 2>/dev/null | grep -vF "avlysning-scraper" | crontab -
+        echo "$EXISTING_CRON" | grep -vF "avlysning-scraper" | crontab -
     else
         echo "Behåller befintligt cron-jobb."
         echo ""
@@ -98,7 +99,7 @@ if crontab -l 2>/dev/null | grep -qF "avlysning-scraper"; then
 fi
 
 # Lägg till cron
-(crontab -l 2>/dev/null; echo "# FM Avlysning — scrapa var 6:e timme (avlysning-scraper)"; echo "$CRON_CMD") | crontab -
+{ crontab -l 2>/dev/null || true; echo "# FM Avlysning — scrapa var 6:e timme (avlysning-scraper)"; echo "$CRON_CMD"; } | crontab -
 echo "✓ Cron-jobb installerat: $CRON_SCHEDULE"
 
 # 7. Sammanfattning
