@@ -3,7 +3,7 @@ set -euo pipefail
 
 # FM Avlysning — Scraper setup för målmaskin
 # Kör direkt:
-#   curl -fsSL https://raw.githubusercontent.com/NicklasAndersson/avlysning/main/setup-scraper.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/NicklasAndersson/avlysning/main/setup-scraper.sh -o /tmp/setup-scraper.sh && bash /tmp/setup-scraper.sh
 # Eller lokalt:
 #   bash setup-scraper.sh
 

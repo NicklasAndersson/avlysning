@@ -9,7 +9,7 @@ Visar aktiva avlysningar för svenska skjut- och övningsfält på en interaktiv
 Kör på målmaskinen (kräver Docker):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/NicklasAndersson/avlysning/main/setup-scraper.sh | bash
+curl -fsSL https://raw.githubusercontent.com/NicklasAndersson/avlysning/main/setup-scraper.sh -o /tmp/setup-scraper.sh && bash /tmp/setup-scraper.sh
 ```
 
 Scriptet frågar efter Cloudflare R2-uppgifter, drar ner Docker-imagen och installerar ett cron-jobb (var 6:e timme).

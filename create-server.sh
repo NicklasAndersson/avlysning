@@ -85,7 +85,8 @@ ssh $SSH_OPTS root@"$IP" "cloud-init status --wait" 2>/dev/null || true
 # Kör setup-scriptet
 echo ""
 echo "Kör setup-scraper.sh på servern..."
-ssh $SSH_OPTS -t root@"$IP" 'curl -fsSL https://raw.githubusercontent.com/NicklasAndersson/avlysning/main/setup-scraper.sh | bash'
+ssh $SSH_OPTS root@"$IP" 'curl -fsSL https://raw.githubusercontent.com/NicklasAndersson/avlysning/main/setup-scraper.sh -o /tmp/setup-scraper.sh && chmod +x /tmp/setup-scraper.sh'
+ssh $SSH_OPTS -t root@"$IP" 'bash /tmp/setup-scraper.sh'
 
 echo ""
 echo "=== Klart ==="
