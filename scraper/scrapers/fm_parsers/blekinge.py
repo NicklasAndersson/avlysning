@@ -34,7 +34,7 @@ MONTH_PATTERN = (
     r"|okt(?:ober)?|nov(?:ember)?|dec(?:ember)?)"
 )
 BLEKINGE_ROW_RE = re.compile(
-    WEEKDAY_PREFIX + r"?"
+    r"(?:" + WEEKDAY_PREFIX + r")?"
     r"(\d{1,2})\s*[-]?\s*"
     r"(" + MONTH_PATTERN + r")\s+"
     r"(\d{2})[.:]?(\d{2})\s*[-–]\s*(\d{2})[.:]?(\d{2})",
