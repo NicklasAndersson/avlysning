@@ -133,12 +133,11 @@ class FMScraper(BaseScraper):
         pdf_bytes = self.fetch_bytes(pdf_url)
         filename = pdf_url.split("/")[-1]
 
-        with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
-            full_text = ""
-            for page in pdf.pages:
-                text = page.extract_text()
-                if text:
-                    full_text += text + "\n"
+        try:
+            full_text = self._extract_pdf_text(pdf_bytes, filename)
+        except Exception as e:
+            self.logger.warning("Kunde inte läsa PDF %s: %s", filename, e)
+            return []
 
         if not full_text.strip():
             self.logger.warning("Tom PDF: %s", pdf_url)
@@ -152,6 +151,17 @@ class FMScraper(BaseScraper):
             "PDF %s: %d restriktioner", filename, len(restrictions)
         )
         return restrictions
+
+    @staticmethod
+    def _extract_pdf_text(pdf_bytes: bytes, filename: str, timeout: int = 30) -> str:
+        """Extraherar text från PDF-bytes."""
+        with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
+            parts: list[str] = []
+            for page in pdf.pages:
+                text = page.extract_text()
+                if text:
+                    parts.append(text)
+        return "\n".join(parts)
 
     @staticmethod
     def _make_id(name: str) -> str:

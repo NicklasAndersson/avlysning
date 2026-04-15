@@ -1,6 +1,6 @@
 # FM Avlysning — Projektstatus
 
-> Senast uppdaterad: 2026-04-14
+> Senast uppdaterad: 2026-04-15
 
 ## Översikt
 
@@ -10,7 +10,7 @@ Lokal MVP som visar aktiva avlysningar för svenska skjut- och övningsfält på
 
 ### Scraper
 - **FM JSON API** — Hämtar alla 75 skjutfält via `forsvarsmakten.se/api/searchapi/get-firing-ranges`
-- **PDF-parsning** — 10 formatspecifika parsers som täcker majoriteten av FM:s PDF-format
+- **PDF-parsning** — 19 formatspecifika parsers + 5 snabbkontroller, 100% täckning av alla FM-PDFer
 - **Bofors-scraper** — Hämtar 7 dagars sektorstatus från `skjutfalten.se`
 - **Kommun-scraper** — Stödjer Falun, Strängnäs (Härads), Vårgårda (Remmene)
 - **Diskcache** — SHA-256-baserad cache i `tmp/cache/`, default TTL 24h
@@ -28,7 +28,7 @@ Lokal MVP som visar aktiva avlysningar för svenska skjut- och övningsfält på
 
 ### Data
 - **GeoJSON** — 313 OSM-polygoner (161 namngivna) från Geofabrik-extrakt
-- **Status-JSON** — 75 fält, 623 restriktioner, 38 aktiva idag (2026-04-14)
+- **Status-JSON** — 79 fält, 858 restriktioner (2026-04-15)
 
 ## Kända begränsningar ⚠️
 
@@ -37,19 +37,8 @@ FM använder långa officiella namn (t.ex. "Bodens södra och Kusträsks övning
 
 Omatchade fält inkluderar bl.a.: Askö, Bollö, Bråt, Eksjö, Grebbegården, Husie, Kalixfors, Karlskrona inre öar, Kungsängen, Lombens/Orrträsk, Norra Åsum, Sisjön, Skillingaryd, Tåme, Villingsberg, Vällinge, m.fl.
 
-### Omatchade PDFer (22 unika filer, ~50 varningar)
-Dessa PDF-format saknar parser:
-- **Enköping** — `varningsmeddelande-enkoping-v15/v16/v17-2026.pdf`
-- **Karlsborg** — `tilltradesforbud-karlsborg-v16/v17-2026.pdf`
-- **Norra Åsum** — 3 PDFer med månadsformat
-- **Pansarövningsfältet (Revingehed)** — 3 PDFer med månadsformat
-- **Skövde** — `tilltradesforbud-skovde-v14-17/v17-20-2026.pdf`
-- **Skillingaryd** — `tilltradesforbud-skillingaryd--v12-2026.pdf`
-- **Kalixfors** — 2 PDFer med avvikande format
-- **Göteborg skärgård** — `tilltradesforbud_v10-14-_goteborg-skargardsskjutfalt.pdf`
-- **Älvdalen** — Ändringsdokument (`-andring-1.pdf`)
-- **Umeå** — `tilltradesforbud-umea-v17-2026.pdf` (framtida vecka, kan fungera med befintlig parser om den cachas)
-- **F7, Bråt, Vänern** — Specialformat / statiska dokument
+### Omatchade PDFer — LÖST ✅
+Alla FM-PDFer (163 st) parsas nu korrekt. 19 parsers + 5 snabbkontroller (statisk info, ingen farlig verksamhet, alla NEJ, inget tillträdesförbud, övningsinformation).
 
 ### Ej testat i kombination
 - `--source all` (FM + Bofors + Kommun samtidigt) har inte körts end-to-end
@@ -70,12 +59,13 @@ Dessa PDF-format saknar parser:
 | Bofors-fält | 1 |
 | Kommun-fält | 3 (Falun, Strängnäs, Vårgårda) |
 | **Totalt fält** | **79** |
-| PDF-parsers | 10 |
-| Omatchade PDFer | 22 unika filer |
+| PDF-parsers | 19 |
+| Snabbkontroller (pre-checks) | 5 |
+| Omatchade PDFer | **0** |
 | GeoJSON-polygoner | 313 (161 namngivna) |
 | Namnmatchningar (exakt) | 43/79 |
 | Namnmatchningar (med mappning) | 59/79 |
-| Restriktioner (dedupade) | 658 |
-| Aktiva idag | 39 fält |
+| Restriktioner (dedupade) | 858 |
+| Fält med aktiva restriktioner | 62 |
 | Frontend-komponenter | 4 (Map, InfoPanel, FieldList, Disclaimer) |
-| Cachade filer | ~150 (API + PDFer + HTML) |
+| Cachade filer | ~170 (API + PDFer + HTML) |
