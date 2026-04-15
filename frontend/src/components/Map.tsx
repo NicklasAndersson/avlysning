@@ -280,7 +280,7 @@ function buildColorExpression(
   for (const [osmId, geoName] of Object.entries(OSM_ID_TO_GEO_NAME)) {
     if (knownGeoNames.has(geoName)) {
       cases.push(
-        ['==', ['get', 'osm_id'], Number(osmId)],
+        ['==', ['get', 'osm_id'], osmId],
         activeGeoNames.has(geoName) ? '#f44336' : '#4CAF50',
       )
     }
