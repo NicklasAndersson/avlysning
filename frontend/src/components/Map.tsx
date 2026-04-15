@@ -2,7 +2,8 @@ import { useEffect, useRef, useCallback } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import type { FieldStatus } from '../types'
-import { geoNameToFmName, fmNameToGeoName, OSM_ID_TO_GEO_NAME } from '../nameMapping'
+import type { FieldConfig } from '../fieldConfig'
+import { buildOsmIdToFmName, loadFieldConfig } from '../fieldConfig'
 import './Map.css'
 
 interface MapProps {
@@ -19,9 +20,9 @@ export function Map({ statusData, onFieldClick, selectedField }: MapProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<maplibregl.Map | null>(null)
   const popupRef = useRef<maplibregl.Popup | null>(null)
-  const fmNamesRef = useRef<Set<string>>(new Set())
-  const geoNamesRef = useRef<Set<string>>(new Set())
   const geojsonRef = useRef<GeoJSON.FeatureCollection | null>(null)
+  const configRef = useRef<FieldConfig | null>(null)
+  const osmIdToFmNameRef = useRef<Record<string, string>>({})
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -96,42 +97,46 @@ export function Map({ statusData, onFieldClick, selectedField }: MapProps) {
       map.on('click', 'skjutfalt-fill', (e) => {
         if (!e.features?.length) return
 
-        // Resolve each feature to a geoName, pick the one that maps to a known FM field
-        let geoName = 'Okänt område'
-        let fmName = geoName
+        // Matcha osm_id → FM-fält via konfigurationen
+        let fmName: string | null = null
+        let displayName = 'Okänt område'
         for (const feat of e.features) {
-          const p = feat.properties
-          const candidate = p?.name
-            ?? OSM_ID_TO_GEO_NAME[String(p?.osm_id)]
-          if (!candidate) continue
-          const resolved = geoNameToFmName(candidate, fmNamesRef.current)
-          if (fmNamesRef.current.has(resolved)) {
-            geoName = candidate
+          const osmId = String(feat.properties?.osm_id ?? '')
+          const resolved = osmIdToFmNameRef.current[osmId]
+          if (resolved) {
             fmName = resolved
+            displayName = fmName
             break
           }
-          // Keep first valid name as fallback
-          if (geoName === 'Okänt område') {
-            geoName = candidate
-            fmName = resolved
+        }
+
+        // Fallback: visa polygon-namn
+        if (!fmName) {
+          for (const feat of e.features) {
+            const name = feat.properties?.name
+            if (name) {
+              displayName = name
+              break
+            }
           }
         }
 
         console.log('[Polygon click]', {
-          geoName,
           fmName,
-          allFeatures: e.features.map(f => f.properties),
-          matched: fmNamesRef.current.has(fmName),
-          geoNamesLoaded: geoNamesRef.current.size,
+          displayName,
+          allFeatures: e.features.map(f => ({
+            osm_id: f.properties?.osm_id,
+            name: f.properties?.name,
+          })),
         })
 
-        onFieldClick(fmName)
+        onFieldClick(fmName ?? displayName)
 
         if (popupRef.current) popupRef.current.remove()
 
         popupRef.current = new maplibregl.Popup({ closeOnClick: true })
           .setLngLat(e.lngLat)
-          .setHTML(`<strong>${geoName}</strong>`)
+          .setHTML(`<strong>${displayName}</strong>`)
           .addTo(map)
       })
 
@@ -152,64 +157,60 @@ export function Map({ statusData, onFieldClick, selectedField }: MapProps) {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Ladda alla GeoJSON-namn direkt från filen (ej querySourceFeatures som saknar icke-synliga)
+  // Ladda GeoJSON och field_config
   useEffect(() => {
-    fetch('/data/skjutfalt.geojson')
-      .then(r => r.json())
-      .then((geojson: GeoJSON.FeatureCollection) => {
-        geojsonRef.current = geojson
-        const names = new Set<string>()
-        for (const f of geojson.features) {
-          const n = (f.properties as Record<string, unknown>)?.name
-          if (typeof n === 'string') names.add(n)
-        }
-        geoNamesRef.current = names
-        // Re-trigger coloring now that geoNames is populated
-        if (mapRef.current && statusData) {
-          const expr = buildColorExpression(statusData, names)
-          mapRef.current.setPaintProperty('skjutfalt-fill', 'fill-color', expr)
-        }
-      })
+    Promise.all([
+      fetch('/data/skjutfalt.geojson').then(r => r.json()),
+      loadFieldConfig(),
+    ]).then(([geojson, config]: [GeoJSON.FeatureCollection, FieldConfig]) => {
+      geojsonRef.current = geojson
+      configRef.current = config
+      osmIdToFmNameRef.current = buildOsmIdToFmName(config)
+
+      // Trigger färgläggning om statusData redan finns
+      if (mapRef.current && statusData) {
+        const expr = buildColorExpression(statusData, osmIdToFmNameRef.current)
+        mapRef.current.setPaintProperty('skjutfalt-fill', 'fill-color', expr)
+      }
+    })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Uppdatera färger när statusData ändras
   useEffect(() => {
-    // Uppdatera FM-namn ref oavsett kartstatus (behövs vid klick)
-    if (statusData) {
-      fmNamesRef.current = new Set(statusData.fields.map(f => f.name))
-    }
-
     const map = mapRef.current
     if (!map || !map.isStyleLoaded()) return
 
     const source = map.getSource('skjutfalt')
     if (!source) return
 
-    // Bygg färguttryck baserat på statusdata
-    const colorExpression = buildColorExpression(statusData, geoNamesRef.current)
+    const colorExpression = buildColorExpression(statusData, osmIdToFmNameRef.current)
     map.setPaintProperty('skjutfalt-fill', 'fill-color', colorExpression)
   }, [statusData])
 
-  // Flyga till valt fält när det väljs från listan
+  // Flyga till valt fält
   const flyToField = useCallback((fieldName: string) => {
     const map = mapRef.current
     const geojson = geojsonRef.current
-    if (!map || !geojson) return
+    const config = configRef.current
+    if (!map || !geojson || !config) return
 
-    const geoName = fmNameToGeoName(fieldName, geoNamesRef.current)
+    const entry = config.fields[fieldName]
+    if (!entry || entry.osm_ids.length === 0) return
 
-    // Hitta feature med matchande namn
-    const feature = geojson.features.find(
-      f => (f.properties as Record<string, unknown>)?.name === geoName
-    )
-    if (!feature) return
-
-    // Beräkna bbox
-    const coords = getAllCoords(feature.geometry)
-    if (coords.length === 0) return
+    // Samla alla koordinater från alla polygoner som tillhör fältet
+    const osmIdSet = new Set(entry.osm_ids)
+    const allCoords: number[][] = []
+    for (const f of geojson.features) {
+      const osmId = String((f.properties as Record<string, unknown>)?.osm_id ?? '')
+      if (osmIdSet.has(osmId)) {
+        allCoords.push(...getAllCoords(f.geometry))
+      }
+    }
+    if (allCoords.length === 0) return
 
     let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity
-    for (const [lng, lat] of coords) {
+    for (const coord of allCoords) {
+      const lng = coord[0]!, lat = coord[1]!
       if (lng < minLng) minLng = lng
       if (lng > maxLng) maxLng = lng
       if (lat < minLat) minLat = lat
@@ -248,40 +249,31 @@ function getAllCoords(geometry: GeoJSON.Geometry): number[][] {
 
 function buildColorExpression(
   statusData: FieldStatus | null,
-  geoNames: Set<string>,
+  osmIdToFmName: Record<string, string>,
 ): maplibregl.ExpressionSpecification {
   if (!statusData || statusData.fields.length === 0) {
-    return '#888888'
+    return '#888888' as unknown as maplibregl.ExpressionSpecification
   }
 
   const today = new Date().toLocaleDateString('sv-SE')
   const cases: (string | maplibregl.ExpressionSpecification)[] = ['case']
 
-  // Bygg set av GeoJSON-namn med aktiva restriktioner idag
-  const activeGeoNames = new Set<string>()
-  const knownGeoNames = new Set<string>()
+  // Bygg set av FM-fältnamn med aktiva restriktioner idag
+  const activeFmNames = new Set<string>()
+  const fmNameSet = new Set<string>()
   for (const field of statusData.fields) {
-    const geoName = fmNameToGeoName(field.name, geoNames)
-    knownGeoNames.add(geoName)
+    fmNameSet.add(field.name)
     if (field.restrictions.some(r => r.date === today)) {
-      activeGeoNames.add(geoName)
+      activeFmNames.add(field.name)
     }
   }
 
-  // Färglägg namngivna polygoner via name-property
-  for (const geoName of knownGeoNames) {
-    cases.push(
-      ['==', ['get', 'name'], geoName],
-      activeGeoNames.has(geoName) ? '#f44336' : '#4CAF50',
-    )
-  }
-
-  // Färglägg namnlösa polygoner via osm_id → geoName-mappning
-  for (const [osmId, geoName] of Object.entries(OSM_ID_TO_GEO_NAME)) {
-    if (knownGeoNames.has(geoName)) {
+  // Färglägg varje osm_id baserat på dess FM-fält
+  for (const [osmId, fmName] of Object.entries(osmIdToFmName)) {
+    if (fmNameSet.has(fmName)) {
       cases.push(
         ['==', ['get', 'osm_id'], osmId],
-        activeGeoNames.has(geoName) ? '#f44336' : '#4CAF50',
+        activeFmNames.has(fmName) ? '#f44336' : '#4CAF50',
       )
     }
   }

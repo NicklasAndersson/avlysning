@@ -1,0 +1,1560 @@
+{
+  "_comment": "Mappning FM-fält → GeoJSON-polygoner (osm_id). Redigera osm_ids för att styra vilka polygoner som hör till varje fält.",
+  "fields": {
+    "Almö övningsfält": {
+      "osm_ids": [
+        "785987813"
+      ],
+      "geo_name": "Almö övningsfält"
+    },
+    "Arvidsjaurs skjutfält": {
+      "osm_ids": [
+        "270900071"
+      ],
+      "geo_name": "Arvidsjaurs skjutfält"
+    },
+    "Askö skjutfält": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Berga skjutfält": {
+      "osm_ids": [
+        "10694827"
+      ],
+      "geo_name": "Berga skjutfält"
+    },
+    "Björka övningsfält": {
+      "osm_ids": [
+        "182930007"
+      ],
+      "geo_name": "Björka övningsfält"
+    },
+    "Bodens södra och Kusträsks övnings- och skjutfält": {
+      "osm_ids": [
+        "1001540758",
+        "1093617559",
+        "1356124003",
+        "1356124004",
+        "1356124005",
+        "1356124006",
+        "64301921",
+        "9453774"
+      ],
+      "geo_name": "Bodens södra skjutfält"
+    },
+    "Bofors skjutfält": {
+      "osm_ids": [
+        "3596741"
+      ],
+      "geo_name": "SAAB Bofors Test Center"
+    },
+    "Bollö skjutfält": {
+      "osm_ids": [
+        "12621322"
+      ],
+      "geo_name": "Bollö övningsfält"
+    },
+    "Bråt skjutbanor – Borås": {
+      "osm_ids": [
+        "1029839534"
+      ],
+      "geo_name": "Bråts skjutfällt"
+    },
+    "Dagsådalens skjutfält - Östersund": {
+      "osm_ids": [
+        "10930716",
+        "117434691",
+        "117434711"
+      ],
+      "geo_name": "Dagsådalens skjutfält"
+    },
+    "Djupasund övningsfält": {
+      "osm_ids": [
+        "785991705"
+      ],
+      "geo_name": "Djupasund övningsfält"
+    },
+    "Eksjö skjutfält": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Enköpingsfältet": {
+      "osm_ids": [
+        "10930996"
+      ],
+      "geo_name": "Enköpingsfältet"
+    },
+    "Falun skjutfält": {
+      "osm_ids": [
+        "13380120",
+        "79685080"
+      ],
+      "geo_name": "Faluns skjutfält"
+    },
+    "Faluns skjutfält": {
+      "osm_ids": [
+        "13380120",
+        "79685080"
+      ],
+      "geo_name": "Faluns skjutfält"
+    },
+    "Gisslingö skjutfält": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Grebbegården övningsfält": {
+      "osm_ids": [
+        "785993327"
+      ],
+      "geo_name": "Gräbbegården övningsfält"
+    },
+    "Gyö övningsfält": {
+      "osm_ids": [
+        "785987343"
+      ],
+      "geo_name": "Gyö övningsfält"
+    },
+    "Gökalv övningsfält": {
+      "osm_ids": [
+        "785987814"
+      ],
+      "geo_name": "Gökalv övningsfält"
+    },
+    "Göteborgs skärgårdsskjutfält": {
+      "osm_ids": [
+        "11493125"
+      ],
+      "geo_name": "Göteborgs skärgårdsskjutfält"
+    },
+    "Harö skjutfält": {
+      "osm_ids": [
+        "785863926"
+      ],
+      "geo_name": "Harö skjutfält"
+    },
+    "Horssjöns skjutfält": {
+      "osm_ids": [
+        "1202921827",
+        "9789987"
+      ],
+      "geo_name": "Horssjöns skjutfält"
+    },
+    "Husie övningsfält": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Härads skjutfält": {
+      "osm_ids": [
+        "155008174",
+        "525237306",
+        "525237309",
+        "525237314",
+        "622843552"
+      ],
+      "geo_name": "Härads skjutfält"
+    },
+    "Härnösands, Härnöns och Skärsvikens skjutfält": {
+      "osm_ids": [
+        "785828347"
+      ],
+      "geo_name": "Skärsvikens skjutfält"
+    },
+    "Järnavik övningsfält": {
+      "osm_ids": [
+        "785987342"
+      ],
+      "geo_name": "Järnavik övningsfält"
+    },
+    "Kabusa skjutfält": {
+      "osm_ids": [
+        "182932728"
+      ],
+      "geo_name": "Kabusa skjutfält"
+    },
+    "Kalixfors skjutfält – Kiruna": {
+      "osm_ids": [
+        "253535424"
+      ],
+      "geo_name": "Kalixfors skjutfält"
+    },
+    "Karlskrona inre öars övningsfält": {
+      "osm_ids": [
+        "785862975"
+      ],
+      "geo_name": "Karlskrona inre öar övningsfält"
+    },
+    "Killeberget övningsfält": {
+      "osm_ids": [
+        "10933797"
+      ],
+      "geo_name": "Killeberget övningsfält"
+    },
+    "Korsö skjutfält": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Kosta skjutfält": {
+      "osm_ids": [
+        "10279922"
+      ],
+      "geo_name": "Kosta skjutfält"
+    },
+    "Kråk skjutfält": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Kungsängens skjutfält": {
+      "osm_ids": [
+        "10627070",
+        "766568816"
+      ],
+      "geo_name": "Kungsängenfältet"
+    },
+    "Listershuvud övningsfält": {
+      "osm_ids": [
+        "785987345"
+      ],
+      "geo_name": "Listershuvud övningsfält"
+    },
+    "Lombens och Orrträsks skjutfält": {
+      "osm_ids": [
+        "4467139"
+      ],
+      "geo_name": "Lombens skjutfält"
+    },
+    "Marma skjutfält": {
+      "osm_ids": [
+        "9774419"
+      ],
+      "geo_name": "Marma skjutfält"
+    },
+    "Mellstens skjutfält": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Norra Åsum": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Nytorps skjutfält": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Nyårsåsens skjutfält": {
+      "osm_ids": [
+        "398298796"
+      ],
+      "geo_name": "Nyårsåsens skjutfält"
+    },
+    "Pottneholmen övningsfält": {
+      "osm_ids": [
+        "785862974"
+      ],
+      "geo_name": "Pottneholmen övningsfält"
+    },
+    "Prästtomta övnings- och skjutfält": {
+      "osm_ids": [
+        "494628674",
+        "494628675",
+        "494628676",
+        "494628677",
+        "495908363"
+      ],
+      "geo_name": "Prästtomta övnings- och skjutfält"
+    },
+    "Ravlunda skjutfält": {
+      "osm_ids": [
+        "10931215",
+        "10931216"
+      ],
+      "geo_name": "Ravlunda skjutfält"
+    },
+    "Remmene skjutfält": {
+      "osm_ids": [
+        "327296652",
+        "710474009",
+        "710500313"
+      ],
+      "geo_name": "Remmene skjutfält"
+    },
+    "Revingehed pansarövningsfält": {
+      "osm_ids": [
+        "2807335"
+      ],
+      "geo_name": "Revingehed pansarövningsfält"
+    },
+    "Ringenäs skjutfält": {
+      "osm_ids": [
+        "178663081"
+      ],
+      "geo_name": "Ringenäs skjutfält"
+    },
+    "Rinkaby skjutfält": {
+      "osm_ids": [
+        "182937872"
+      ],
+      "geo_name": "Rinkaby skjutfält"
+    },
+    "Romeleklint övningsfält": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Rosenholms övningsfält": {
+      "osm_ids": [
+        "187197901",
+        "191556272",
+        "191557529",
+        "614749512",
+        "786001320"
+      ],
+      "geo_name": "Rosenholms övningsfält"
+    },
+    "Rotens skjutfält": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Ryssjön övningsfält": {
+      "osm_ids": [
+        "263050397"
+      ],
+      "geo_name": "Ryssjön övningsfält"
+    },
+    "Sisjöns skjutfält": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Skillingaryds skjutfält": {
+      "osm_ids": [
+        "1218614518",
+        "12991081"
+      ],
+      "geo_name": "Skillingaryds övnings- och skjutfält"
+    },
+    "Skogstibble skjutfält": {
+      "osm_ids": [
+        "1241136208"
+      ],
+      "geo_name": "Skogstibblefältet"
+    },
+    "Skövde skjutfält": {
+      "osm_ids": [
+        "961367756"
+      ],
+      "geo_name": "Skövde skjutfält"
+    },
+    "Stabbo skjutfält": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Stärnö övningsfält": {
+      "osm_ids": [
+        "785987344"
+      ],
+      "geo_name": "Stärnö övningsfält"
+    },
+    "Sågebackens skjutfält": {
+      "osm_ids": [
+        "1077395137"
+      ],
+      "geo_name": "Sågebackens skjutområde"
+    },
+    "Såtenäs skjutfält": {
+      "osm_ids": [
+        "380380074"
+      ],
+      "geo_name": "Såtenäs flygplats - Skaraborgs flygflottilj F 7"
+    },
+    "Söderarms skjutfält": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Tjurkö övnings- och skjutfält": {
+      "osm_ids": [
+        "10933737",
+        "14275587"
+      ],
+      "geo_name": "Tjurkö övnings- och skjutfält"
+    },
+    "Tjärnmyrans skjutfält": {
+      "osm_ids": [
+        "776062264",
+        "776067415"
+      ],
+      "geo_name": "Tjärnmyrans skjutfält"
+    },
+    "Tofta skjutfält": {
+      "osm_ids": [
+        "714496061"
+      ],
+      "geo_name": "Tofta skjutfält"
+    },
+    "Torhamns skjutfält": {
+      "osm_ids": [
+        "785862969"
+      ],
+      "geo_name": "Torhamns skjutfält"
+    },
+    "Trashalla övningsfält": {
+      "osm_ids": [
+        "785990977"
+      ],
+      "geo_name": "Trashalla övningsfält"
+    },
+    "Tåme skjutfält": {
+      "osm_ids": [
+        "365895332"
+      ],
+      "geo_name": "Tåme Skjutfält"
+    },
+    "Umeå övnings- och skjutfält": {
+      "osm_ids": [
+        "173526029",
+        "785876449"
+      ],
+      "geo_name": "Umeå övnings- och skjutfält"
+    },
+    "Utö skjutfält": {
+      "osm_ids": [
+        "10694833",
+        "36361128"
+      ],
+      "geo_name": "Utö skjutfält"
+    },
+    "Veckholms skjutfält": {
+      "osm_ids": [
+        "5959354"
+      ],
+      "geo_name": "Veckholms skjutfält"
+    },
+    "Villingsbergs skjutfält": {
+      "osm_ids": [
+        "3596742",
+        "5553825"
+      ],
+      "geo_name": "Villingsbergs Skjutfält"
+    },
+    "Väddö skjutfält": {
+      "osm_ids": [
+        "785875604"
+      ],
+      "geo_name": "Väddö skjutfält"
+    },
+    "Vällinge övningsområde": {
+      "osm_ids": [
+        "785872276",
+        "876264120"
+      ],
+      "geo_name": "Vällinge övnings- och skjutfält"
+    },
+    "Älvdalens skjutfält": {
+      "osm_ids": [
+        "11105915",
+        "398496803"
+      ],
+      "geo_name": "Älvdalens skjutfält"
+    },
+    "Äspeskär övningsfält": {
+      "osm_ids": [
+        "785862972"
+      ],
+      "geo_name": "Äspeskär övningsfält"
+    },
+    "Önnarps övningsfält": {
+      "osm_ids": [],
+      "geo_name": null
+    },
+    "Öppenskär övningsfält": {
+      "osm_ids": [
+        "785993328"
+      ],
+      "geo_name": "Öppenskär övningsfält"
+    }
+  },
+  "unmapped_polygons": [
+    {
+      "osm_id": "10129623",
+      "name": "Känsö",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1027326910",
+      "name": "Grytans skjufält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "10396828",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "10396829",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "10461908",
+      "name": "Luftvärnsregementet",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "10475899",
+      "name": "Göteborgs garnison",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1054839323",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "10627069",
+      "name": "Kungsängens garnison",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "10694831",
+      "name": "Amfibieregementets skjutfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "10694832",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1071028298",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1077395136",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1084136462",
+      "name": "Vaberget Militärt övningsfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "10919821",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "10930715",
+      "name": "Dagsådalens övningsområde",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1093416434",
+      "name": "Hemvärnsgård",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1093416848",
+      "name": "K0700",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1093423634",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1093617557",
+      "name": "Brandövningsbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1093617558",
+      "name": "Provkammare",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1093617560",
+      "name": "CBRN",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1093618326",
+      "name": "Rödberget 25m",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1093618327",
+      "name": "Provkammare",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1093618328",
+      "name": "Rödberget 50m",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1093662481",
+      "name": "Ängesholmen",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1094284980",
+      "name": "Understbergets Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1108258736",
+      "name": "Sjöflyghangaren",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1149761899",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "11999695",
+      "name": "Skjutbana B",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "11999765",
+      "name": "Skjutbana A",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1202802555",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1208166609",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "122242685",
+      "name": "Karlskrona Örlogsbas",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1240786558",
+      "name": "Försvarsmaktens hundtjänstenhet",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "12524884",
+      "name": "Riskområde 1B",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "12524885",
+      "name": "Riskområde 1A",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "12524886",
+      "name": "Riskområde 2",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "12524887",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "12524888",
+      "name": "FMV provplats Karlsborg",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "12528669",
+      "name": "Riskområde 6",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "12528670",
+      "name": "Riskområde 7",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "12528671",
+      "name": "Riskområde 5",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "126923444",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "127092231",
+      "name": "Ärna",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1323371321",
+      "name": "Försvarets radioanstalt",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "13380121",
+      "name": "Falu övnings- och skjutfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "135888400",
+      "name": "Säve Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "136720152",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "137280088",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1391805894",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1415816248",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1415816249",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "1416273583",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "143099360",
+      "name": "Eslöv Skyttegilles Pistolklubb",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "14528354",
+      "name": "Militärhögskolan Karlberg",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "145506267",
+      "name": "Älvdalens övningsområde",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "150154020",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "150154021",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "150154023",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "150154024",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "16093285",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "165358828",
+      "name": "Polisens skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "166493045",
+      "name": "Försvarsmaktens tekniska skola",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "167472989",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "172801113",
+      "name": "Malmö Frivilligförsvarscentrum",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "182937873",
+      "name": "Rinkaby läger",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "183200970",
+      "name": "Försvarsmakten",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "186297032",
+      "name": "Rinkaby övningsfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "189951676",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "19665307",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "19665308",
+      "name": "Hemvärnsgården",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "200074803",
+      "name": "Bonusplan",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "204940073",
+      "name": "Klockarängen AirSoft",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "224245780",
+      "name": "Muskö örlogsbas",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "232781815",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "235385401",
+      "name": "Blekinge flygflottilj, F17",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "259417304",
+      "name": "Ruda radio",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "26096114",
+      "name": "Skövde garnison",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "26414560",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "26517539",
+      "name": "FOI Totalförsvarets Forskningsinstitut",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "270067529",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "272164387",
+      "name": "Västra Arningefortet",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "27577722",
+      "name": "FOI Totalförsvarets forskningsinstitut",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "282754807",
+      "name": "Totalförsvarets forskningsinstitut",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "287130152",
+      "name": "Försvarsmakten Hemvärnets stridsskola",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "287254773",
+      "name": "Ing 2 - Göta Ingenjörregemente",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "291098920",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "291847682",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "304300418",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "309792260",
+      "name": "Kungsholms Fort",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "316294568",
+      "name": "Kosta flygbas",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "320839755",
+      "name": "Orrträsks skjutfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "320874460",
+      "name": "Militärt övningsfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "320874461",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "320885159",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "320885160",
+      "name": "Norrbottens flygflottilj",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "32116538",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "327112244",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "33047609",
+      "name": "Försvarsmakten",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "334078276",
+      "name": "Automatskjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "340991776",
+      "name": "Junköns skjutfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "340995230",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "344573077",
+      "name": "Kusträsks skjutfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "3513139",
+      "name": "Västra Hästholmens fästning",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "352084744",
+      "name": "Röjdykardivisionen Skredsvik",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "35859562",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "359548624",
+      "name": "Hagshult flygbas",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "361177387",
+      "name": "Malmen",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "363227288",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "36361131",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "377678270",
+      "name": "Tingstäde Skjutfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "397677151",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "407473323",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "407473324",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "407473326",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "410859069",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "4140238",
+      "name": "Gamla Varvet",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "415091934",
+      "name": "Radar",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "423233942",
+      "name": "Norrlands dragonregemente",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "425185526",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "441795982",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "443238288",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "443239509",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "4467180",
+      "name": "FMV Vidsel Test Range",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "460007108",
+      "name": "Marma Läger",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "46340629",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "46340642",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "46341230",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "46343345",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "515747392",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "525237311",
+      "name": "Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "525237312",
+      "name": "Lillängen",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "533205650",
+      "name": "Batteri Mojner",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "5385856",
+      "name": "Myttinge Skjutfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "553724391",
+      "name": "Försvarsmaktens telekommunikations- och informationssystemförband",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "574598550",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "574598551",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "579367152",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "588336435",
+      "name": "Handgranatsbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "61233031",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "614792709",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "615003803",
+      "name": "Härnösands Jaktskytteklubb",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "615232818",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "61927904",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "621320211",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "624026513",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "641351885",
+      "name": "Försvarets radioanstalt",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "68175762",
+      "name": "Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "689450976",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "694128675",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "700674998",
+      "name": "Bjurholms skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "700674999",
+      "name": "Bjurholms Älgjaktsbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "700675000",
+      "name": "Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "700675001",
+      "name": "Bjurholms Lerduveskyttebana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "705587891",
+      "name": "Handgranatsbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "705787684",
+      "name": "Provplats",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "7105169",
+      "name": "Trelge skjutfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "712151377",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "757344560",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "760257913",
+      "name": "Mästocka Skjutfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "768105539",
+      "name": "Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "770613007",
+      "name": "Flugebyns hoppövningsfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "771056585",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "771056599",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "771056600",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "771056612",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "7725975",
+      "name": "Enköpings garnison",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "776062265",
+      "name": "Stormyran",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "785862970",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "785862971",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "785862976",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "785873138",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "7896929",
+      "name": "Karlsborgs flygplats",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "793622711",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "808556532",
+      "name": "Försvarsmaktens centrallager",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "808881397",
+      "name": "Försvarsmakten",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "810332241",
+      "name": "Försvarsmakten Arboga Garnison",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "810332243",
+      "name": "Försvarsmakten",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "810489355",
+      "name": "Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "813269105",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "823793055",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "832206987",
+      "name": "Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "833048711",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "836207213",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "863401388",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "866323493",
+      "name": "Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "8727440",
+      "name": "Övningsområde",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "8727441",
+      "name": "Övningsområde",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "8727442",
+      "name": "Övningsområde",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "909107485",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "909346619",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "909435848",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "910748834",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "910950713",
+      "name": "Militärt övningsfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "910950714",
+      "name": "Hedens Övningsfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "910950715",
+      "name": "Militärt övningsfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "910957078",
+      "name": "Militärt övningsfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "910957081",
+      "name": "Militärt övningsfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "910957082",
+      "name": "Militärt övningsfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "921721841",
+      "name": "Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "921721860",
+      "name": "Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "925249821",
+      "name": "Riskområde 10",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "925258489",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "926002890",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "927842316",
+      "name": null,
+      "fclass": "military"
+    },
+    {
+      "osm_id": "929672947",
+      "name": "Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "930194170",
+      "name": "Grytans läger",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "955195497",
+      "name": "Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "955195518",
+      "name": "Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "956550174",
+      "name": "Skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "961391384",
+      "name": "Skövde övningsfält",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "991704118",
+      "name": "Rödbergets skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "991704119",
+      "name": "Rödbergets skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "991704120",
+      "name": "Rödbergets skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "991704121",
+      "name": "Rödbergets skjutbana",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "999270065",
+      "name": "Bodens artilleriregemente (A 8)",
+      "fclass": "military"
+    },
+    {
+      "osm_id": "999270075",
+      "name": "Försvarsmakten Norrbottens regemente I 19",
+      "fclass": "military"
+    }
+  ]
+}
