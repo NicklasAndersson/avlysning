@@ -16,7 +16,7 @@ function App() {
   const [statusData, setStatusData] = useState<FieldStatus | null>(null)
   const [selectedField, setSelectedField] = useState<string | null>(null)
   const [isPermanentBan, setIsPermanentBan] = useState(false)
-  const [showList, setShowList] = useState(true)
+  const [showList, setShowList] = useState(false)
   const [selectedDateTime, setSelectedDateTime] = useState(() => new Date())
   const [isLive, setIsLive] = useState(true)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)

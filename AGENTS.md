@@ -168,7 +168,7 @@ ogr2ogr -f GeoJSON data/skjutfalt.geojson \
 ## Agent Notes
 
 - **Terminal commands can be slow.** Always use adequate timeouts (30s+ for network, 90s+ for downloads). Read the actual output before proceeding — do not assume success or failure from timing alone.
-- **Terminal output capture is unreliable for some commands** (e.g. `git`). If `run_in_terminal` returns blank output, redirect to a temp file (`cmd > /tmp/out.txt 2>&1`) and use `read_file` to see the actual result. Never assume a command failed just because the terminal output appears empty.
+ Never assume a command failed just because the terminal output appears empty.
 - **Overpass API** may timeout for large area queries. Prefer Geofabrik extracts + local processing with ogr2ogr.
 - **ogr2ogr (GDAL)** is installed on this machine.
 - **Temp dirs** should be in subdirectory of this project (e.g. `tmp/`) to avoid cluttering home directory. Always clean up temp files after processing.
