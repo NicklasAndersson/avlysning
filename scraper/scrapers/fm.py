@@ -25,8 +25,11 @@ class FMScraper(BaseScraper):
         all_ranges = self._get_all_ranges()
         self.logger.info("Hittade %d skjutfält via API:et", len(all_ranges))
 
-        # Samla alla fält-ID:n för korsvalidering av PDF-kataloger
-        all_field_ids = {self._make_id(r.get("heading", "")) for r in all_ranges}
+        # Samla alla fält-ID:n → kanoniska namn för korsvalidering
+        all_field_names: dict[str, str] = {}
+        for r in all_ranges:
+            heading = r.get("heading", "")
+            all_field_names[self._make_id(heading)] = heading
 
         # Inkludera fältnamn från field_config.json (innehåller fält som saknar
         # eget API-heading men har egna polygoner, t.ex. Trelge under Tofta)
@@ -35,13 +38,15 @@ class FMScraper(BaseScraper):
             try:
                 cfg = json.loads(field_config_path.read_text(encoding="utf-8"))
                 for name in cfg.get("fields", {}):
-                    all_field_ids.add(self._make_id(name))
+                    fid = self._make_id(name)
+                    if fid not in all_field_names:
+                        all_field_names[fid] = name
             except Exception:
                 self.logger.warning("Kunde inte läsa field_config.json")
 
         for range_data in all_ranges:
             try:
-                result = self._process_range(range_data, all_field_ids)
+                result = self._process_range(range_data, all_field_names)
                 if result:
                     fields.extend(result)
             except Exception:
@@ -79,7 +84,7 @@ class FMScraper(BaseScraper):
 
         return all_ranges
 
-    def _process_range(self, range_data: dict, all_field_ids: set[str] | None = None) -> list[dict]:
+    def _process_range(self, range_data: dict, all_field_names: dict[str, str] | None = None) -> list[dict]:
         """Bearbetar ett skjutfält: filtrera PDF:er, ladda ner och parsa.
 
         Returnerar en lista med fält-entries. Vanligtvis ett, men kan vara flera
@@ -120,7 +125,7 @@ class FMScraper(BaseScraper):
         doc_groups: dict[str, list[dict]] = {}
         for doc in restriction_docs:
             target_id, target_name = self._resolve_doc_field(
-                doc, field_id, heading, all_field_ids,
+                doc, field_id, heading, all_field_names,
             )
             doc_groups.setdefault(target_id, {"name": target_name, "docs": []})
             doc_groups[target_id]["docs"].append(doc)
@@ -136,7 +141,7 @@ class FMScraper(BaseScraper):
 
     def _resolve_doc_field(
         self, doc: dict, default_id: str, default_name: str,
-        all_field_ids: set[str] | None,
+        all_field_names: dict[str, str] | None,
     ) -> tuple[str, str]:
         """Bestäm vilket fält ett dokument tillhör utifrån filnamnet i JSON.
 
@@ -162,7 +167,7 @@ class FMScraper(BaseScraper):
         # Ta bort prefix (tilltradesforbud/skjutvarning) och suffix (v-nummer, årtal)
         slug_from_title = self._extract_field_slug(title)
 
-        if not all_field_ids or not slug_from_title:
+        if not all_field_names or not slug_from_title:
             return default_id, default_name
 
         # Om sluggen i filnamnet matchar default → behåll default
@@ -170,33 +175,17 @@ class FMScraper(BaseScraper):
             return default_id, default_name
 
         # Kolla om sluggen matchar ett annat känt fält-ID
-        for fid in all_field_ids:
+        for fid, canonical_name in all_field_names.items():
             if fid == default_id:
                 continue
             if fid.startswith(slug_from_title) or slug_from_title.startswith(fid.split("-")[0]):
                 self.logger.info(
                     "Dokument '%s' under '%s' tillhör '%s' — omdirigerar",
-                    title, default_name, fid,
+                    title, default_name, canonical_name,
                 )
-                # Rekonstruera ett läsbart namn från ID:t
-                readable_name = fid.replace("-", " ").title()
-                # Försök matcha mot skjutfält/övningsfält
-                for suffix in ("skjutfält", "övningsfält", "övnings- och skjutfält"):
-                    candidate = slug_from_title.replace("-", " ").title() + " " + suffix
-                    cid = self._make_id(candidate)
-                    if cid == fid:
-                        readable_name = candidate
-                        break
-                return fid, readable_name
+                return fid, canonical_name
 
-        # Sluggen matchar inget känt fält → skapa nytt fält-ID
-        new_id = slug_from_title + "-skjutfalt"
-        if new_id not in all_field_ids:
-            # Prova utan suffix
-            for fid in all_field_ids:
-                if slug_from_title in fid:
-                    return fid, default_name
-        # Fallback: skapa nytt fält
+        # Sluggen matchar inget känt fält — skapa nytt fält
         new_name = slug_from_title.replace("-", " ").title() + " skjutfält"
         self.logger.info(
             "Dokument '%s' under '%s' → nytt fält '%s'",
