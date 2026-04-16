@@ -439,16 +439,11 @@
     },
     "Tofta skjutfält": {
       "osm_ids": [
-        "714496061"
+        "714496061",
+        "7105169"
       ],
       "geo_name": "Tofta skjutfält",
       "parser": "tofta"
-    },
-    "Trelge skjutfält": {
-      "osm_ids": [
-        "7105169"
-      ],
-      "geo_name": "Trelge skjutfält"
     },
     "Torhamns skjutfält": {
       "osm_ids": [
