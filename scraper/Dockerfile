@@ -13,4 +13,5 @@ COPY scrapers/ scrapers/
 # Skapa datakatalog för output
 RUN mkdir -p /app/data
 
-ENTRYPOINT ["python", "main.py", "--source", "all", "--no-cache", "--output", "/app/data/skjutfalt_status.json", "--upload"]
+ENTRYPOINT ["python", "main.py"]
+CMD ["--source", "all", "--no-cache", "--output", "/app/data/skjutfalt_status.json", "--upload"]

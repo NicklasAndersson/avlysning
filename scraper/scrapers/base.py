@@ -47,8 +47,9 @@ class BaseScraper(ABC):
         """Skapar en filsystemsäker nyckel från en URL."""
         return hashlib.sha256(url.encode()).hexdigest()
 
-    def _read_cache(self, url: str, binary: bool = False) -> bytes | str | None:
+    def _read_cache(self, url: str, binary: bool = False, ttl: int | None = None) -> bytes | str | None:
         """Läser cachad data om den finns och inte har gått ut."""
+        effective_ttl = ttl if ttl is not None else self._cache_ttl
         key = self._cache_key(url)
         meta_path = self._cache_dir / f"{key}.meta"
         data_path = self._cache_dir / f"{key}.data"
@@ -59,7 +60,7 @@ class BaseScraper(ABC):
         try:
             meta = json.loads(meta_path.read_text())
             age = time.time() - meta["ts"]
-            if age > self._cache_ttl:
+            if age > effective_ttl:
                 self.logger.debug("Cache utgången (%.0f s) för %s", age, url)
                 return None
         except (json.JSONDecodeError, KeyError):
@@ -84,9 +85,13 @@ class BaseScraper(ABC):
         else:
             data_path.write_text(data, encoding="utf-8")
 
-    def fetch(self, url: str) -> requests.Response:
-        """Hämtar en URL med cache, rate limiting och retry vid anslutningsfel."""
-        cached = self._read_cache(url)
+    def fetch(self, url: str, ttl: int | None = None) -> requests.Response:
+        """Hämtar en URL med cache, rate limiting och retry vid anslutningsfel.
+
+        Args:
+            ttl: Valfri TTL-override i sekunder. Åsidosätter instansens _cache_ttl.
+        """
+        cached = self._read_cache(url, ttl=ttl)
         if cached is not None:
             self.logger.info("Cache: %s", url)
             resp = requests.Response()
@@ -122,9 +127,9 @@ class BaseScraper(ABC):
 
         raise last_error  # type: ignore[misc]
 
-    def fetch_bytes(self, url: str) -> bytes:
+    def fetch_bytes(self, url: str, ttl: int | None = None) -> bytes:
         """Hämtar binärdata (t.ex. PDF) med cache och rate limiting."""
-        cached = self._read_cache(url, binary=True)
+        cached = self._read_cache(url, binary=True, ttl=ttl)
         if cached is not None:
             self.logger.info("Cache: %s", url)
             return cached  # type: ignore[return-value]

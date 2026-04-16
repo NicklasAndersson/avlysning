@@ -45,7 +45,7 @@ class FMScraper(BaseScraper):
 
         while True:
             url = f"{FM_API_URL}&skip={skip}" if skip > 0 else FM_API_URL
-            resp = self.fetch(url)
+            resp = self.fetch(url, ttl=0)
             data = resp.json()
 
             results = data.get("results", [])
