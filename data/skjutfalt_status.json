@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-16T16:16:01Z",
+  "last_updated": "2026-04-16T16:24:45Z",
   "fields": [
     {
       "id": "almo-ovningsfalt",
@@ -2870,6 +2870,26 @@
           "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/harad/varningsmeddelande-harad-v16-2026.pdf"
         },
         {
+          "date": "2026-04-20",
+          "start": "07:00",
+          "end": "16:30",
+          "type": "tilltradesforbud",
+          "sectors": [
+            "all"
+          ],
+          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/harad/varningsmeddelande-harad-v17-2026.pdf"
+        },
+        {
+          "date": "2026-04-21",
+          "start": "09:00",
+          "end": "24:00",
+          "type": "tilltradesforbud",
+          "sectors": [
+            "all"
+          ],
+          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/harad/varningsmeddelande-harad-v17-2026.pdf"
+        },
+        {
           "date": "2026-04-22",
           "start": "12:30",
           "end": "17:00",
@@ -2880,9 +2900,29 @@
           "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/harad/varningsmeddelande-harad-v17-2026.pdf"
         },
         {
+          "date": "2026-04-22",
+          "start": "12:30",
+          "end": "24:00",
+          "type": "tilltradesforbud",
+          "sectors": [
+            "all"
+          ],
+          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/harad/varningsmeddelande-harad-v17-2026.pdf"
+        },
+        {
           "date": "2026-04-23",
           "start": "09:00",
           "end": "22:00",
+          "type": "tilltradesforbud",
+          "sectors": [
+            "all"
+          ],
+          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/harad/varningsmeddelande-harad-v17-2026.pdf"
+        },
+        {
+          "date": "2026-04-23",
+          "start": "22:00",
+          "end": "24:00",
           "type": "tilltradesforbud",
           "sectors": [
             "all"
@@ -2903,6 +2943,26 @@
           "date": "2026-04-25",
           "start": "09:00",
           "end": "17:00",
+          "type": "tilltradesforbud",
+          "sectors": [
+            "all"
+          ],
+          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/harad/varningsmeddelande-harad-v17-2026.pdf"
+        },
+        {
+          "date": "2026-04-25",
+          "start": "17:00",
+          "end": "24:00",
+          "type": "tilltradesforbud",
+          "sectors": [
+            "all"
+          ],
+          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/harad/varningsmeddelande-harad-v17-2026.pdf"
+        },
+        {
+          "date": "2026-04-26",
+          "start": "00:00",
+          "end": "14:00",
           "type": "tilltradesforbud",
           "sectors": [
             "all"
@@ -3139,358 +3199,7 @@
       "name": "Kalixfors skjutfält – Kiruna",
       "source": "forsvarsmakten.se",
       "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/tilltradesforbud_kalixfors-v11-v15-2026.pdf",
-      "restrictions": [
-        {
-          "date": "2026-04-27",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-04-28",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-04-29",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-04-30",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-01",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-02",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-03",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-04",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-05",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-06",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-07",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-08",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-09",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-10",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-11",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-12",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-13",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-14",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-15",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-16",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-17",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-18",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-19",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-20",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-21",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-22",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-23",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-24",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-25",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-26",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-27",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-28",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-29",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-30",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        },
-        {
-          "date": "2026-05-31",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "all"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/kalixfors-skjutfalt-kiruna/avlysning_kalixfors_v618-622.pdf"
-        }
-      ]
+      "restrictions": []
     },
     {
       "id": "karlskrona-inre-oars-ovningsfalt",
@@ -6805,236 +6514,6 @@
             "all"
           ],
           "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-pansarovningsfaltet-rinkaby-april-maj-2026_a1.pdf"
-        },
-        {
-          "date": "2026-03-05",
-          "start": "13:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "--- ---"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-06",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "--- ---"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-07",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "09"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-08",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "09"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-09",
-          "start": "00:00",
-          "end": "13:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "--- ---"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-20",
-          "start": "13:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "--- ---"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-21",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "--- ---"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-22",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "--- ---"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-23",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "09"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-24",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "09"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-25",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "09"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-26",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "09"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-27",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "09"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-28",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "09"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-29",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "--- ---"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-30",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "--- ---"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-03-31",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "--- ---"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-mars-2026.pdf"
-        },
-        {
-          "date": "2026-04-14",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "09"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-april-maj-2026_a1.pdf"
-        },
-        {
-          "date": "2026-04-15",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "09"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-april-maj-2026_a1.pdf"
-        },
-        {
-          "date": "2026-04-16",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "09"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-april-maj-2026_a1.pdf"
-        },
-        {
-          "date": "2026-05-06",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "09"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-april-maj-2026_a1.pdf"
-        },
-        {
-          "date": "2026-05-07",
-          "start": "00:00",
-          "end": "24:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "09"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-april-maj-2026_a1.pdf"
-        },
-        {
-          "date": "2026-05-11",
-          "start": "00:00",
-          "end": "12:00",
-          "type": "tilltradesforbud",
-          "sectors": [
-            "--- ---"
-          ],
-          "source_url": "https://www.forsvarsmakten.se/globalassets/04-regler-och-tillstand/skjutfalt-och-forbud/rinkaby/tilltradesforbud-rinkaby-april-maj-2026_a1.pdf"
         }
       ]
     },

@@ -1,7 +1,9 @@
 """Scraper för Försvarsmaktens skjutfält och avlysningar via deras interna API."""
 
 import io
+import json
 import re
+from pathlib import Path
 
 import pdfplumber
 
@@ -19,13 +21,21 @@ class FMScraper(BaseScraper):
 
     def scrape(self) -> list[dict]:
         """Hämtar alla skjutfält via API:et och laddar ner relevanta PDF:er."""
+        # Ladda field_config för statisk parsertilldelning
+        config_path = Path(__file__).parent.parent.parent / "data" / "field_config.json"
+        field_config: dict[str, dict] = {}
+        if config_path.exists():
+            field_config = json.loads(config_path.read_text(encoding="utf-8")).get("fields", {})
+
         fields: list[dict] = []
         all_ranges = self._get_all_ranges()
         self.logger.info("Hittade %d skjutfält via API:et", len(all_ranges))
 
         for range_data in all_ranges:
             try:
-                field = self._process_range(range_data)
+                heading = range_data.get("heading", "")
+                parser_name = field_config.get(heading, {}).get("parser")
+                field = self._process_range(range_data, parser_name)
                 if field:
                     fields.append(field)
             except Exception:
@@ -63,7 +73,7 @@ class FMScraper(BaseScraper):
 
         return all_ranges
 
-    def _process_range(self, range_data: dict) -> dict | None:
+    def _process_range(self, range_data: dict, parser_name: str | None = None) -> dict | None:
         """Bearbetar ett skjutfält: filtrera PDF:er, ladda ner och parsa.
 
         Alla dokument under en heading tillhör det fältet — ingen gissning
@@ -104,7 +114,7 @@ class FMScraper(BaseScraper):
             pdf_url = FM_BASE_URL + doc["url"]
             pdf_urls.append(pdf_url)
             try:
-                pdf_restrictions = self._parse_pdf(pdf_url)
+                pdf_restrictions = self._parse_pdf(pdf_url, parser_name)
                 for r in pdf_restrictions:
                     r["source_url"] = pdf_url
                 restrictions.extend(pdf_restrictions)
@@ -130,8 +140,8 @@ class FMScraper(BaseScraper):
             "restrictions": unique,
         }
 
-    def _parse_pdf(self, pdf_url: str) -> list[dict]:
-        """Laddar ner och parsar en avlysnings-PDF via formatspecifik parser."""
+    def _parse_pdf(self, pdf_url: str, parser_name: str | None = None) -> list[dict]:
+        """Laddar ner och parsar en avlysnings-PDF via konfigurerad parser."""
         pdf_bytes = self.fetch_bytes(pdf_url)
         filename = pdf_url.split("/")[-1]
 
@@ -145,7 +155,7 @@ class FMScraper(BaseScraper):
             self.logger.warning("Tom PDF: %s", pdf_url)
             return []
 
-        restrictions = parse_pdf_text(full_text, filename)
+        restrictions = parse_pdf_text(full_text, filename, parser_name=parser_name)
         if restrictions is None:
             self.logger.warning("Ingen parser matchade: %s", filename)
             return []

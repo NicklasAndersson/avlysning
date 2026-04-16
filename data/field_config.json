@@ -5,29 +5,34 @@
       "osm_ids": [
         "785987813"
       ],
-      "geo_name": "Almö övningsfält"
+      "geo_name": "Almö övningsfält",
+      "parser": "blekinge"
     },
     "Arvidsjaurs skjutfält": {
       "osm_ids": [
         "270900071"
       ],
-      "geo_name": "Arvidsjaurs skjutfält"
+      "geo_name": "Arvidsjaurs skjutfält",
+      "parser": "standard_weekly"
     },
     "Askö skjutfält": {
       "osm_ids": [],
-      "geo_name": null
+      "geo_name": null,
+      "parser": "amf1"
     },
     "Berga skjutfält": {
       "osm_ids": [
         "10694827"
       ],
-      "geo_name": "Berga skjutfält"
+      "geo_name": "Berga skjutfält",
+      "parser": "amf1"
     },
     "Björka övningsfält": {
       "osm_ids": [
         "182930007"
       ],
-      "geo_name": "Björka övningsfält"
+      "geo_name": "Björka övningsfält",
+      "parser": "beslut"
     },
     "Bodens södra och Kusträsks övnings- och skjutfält": {
       "osm_ids": [
@@ -40,7 +45,8 @@
         "64301921",
         "9453774"
       ],
-      "geo_name": "Bodens södra skjutfält"
+      "geo_name": "Bodens södra skjutfält",
+      "parser": "standard_weekly"
     },
     "Bofors skjutfält": {
       "osm_ids": [
@@ -52,7 +58,8 @@
       "osm_ids": [
         "12621322"
       ],
-      "geo_name": "Bollö övningsfält"
+      "geo_name": "Bollö övningsfält",
+      "parser": "blekinge"
     },
     "Bråt skjutbanor – Borås": {
       "osm_ids": [
@@ -66,23 +73,27 @@
         "117434691",
         "117434711"
       ],
-      "geo_name": "Dagsådalens skjutfält"
+      "geo_name": "Dagsådalens skjutfält",
+      "parser": "standard_weekly"
     },
     "Djupasund övningsfält": {
       "osm_ids": [
         "785991705"
       ],
-      "geo_name": "Djupasund övningsfält"
+      "geo_name": "Djupasund övningsfält",
+      "parser": "blekinge"
     },
     "Eksjö skjutfält": {
       "osm_ids": [],
-      "geo_name": null
+      "geo_name": null,
+      "parser": "yy_mm_dd"
     },
     "Enköpingsfältet": {
       "osm_ids": [
         "10930996"
       ],
-      "geo_name": "Enköpingsfältet"
+      "geo_name": "Enköpingsfältet",
+      "parser": "enkoping"
     },
     "Falun skjutfält": {
       "osm_ids": [
@@ -96,7 +107,8 @@
         "13380120",
         "79685080"
       ],
-      "geo_name": "Faluns skjutfält"
+      "geo_name": "Faluns skjutfält",
+      "parser": "generic_iso"
     },
     "Gisslingö skjutfält": {
       "osm_ids": [],
@@ -106,19 +118,22 @@
       "osm_ids": [
         "785993327"
       ],
-      "geo_name": "Gräbbegården övningsfält"
+      "geo_name": "Gräbbegården övningsfält",
+      "parser": "blekinge"
     },
     "Gyö övningsfält": {
       "osm_ids": [
         "785987343"
       ],
-      "geo_name": "Gyö övningsfält"
+      "geo_name": "Gyö övningsfält",
+      "parser": "blekinge"
     },
     "Gökalv övningsfält": {
       "osm_ids": [
         "785987814"
       ],
-      "geo_name": "Gökalv övningsfält"
+      "geo_name": "Gökalv övningsfält",
+      "parser": "blekinge"
     },
     "Göteborgs skärgårdsskjutfält": {
       "osm_ids": [
@@ -130,18 +145,21 @@
       "osm_ids": [
         "785863926"
       ],
-      "geo_name": "Harö skjutfält"
+      "geo_name": "Harö skjutfält",
+      "parser": "blekinge"
     },
     "Horssjöns skjutfält": {
       "osm_ids": [
         "1202921827",
         "9789987"
       ],
-      "geo_name": "Horssjöns skjutfält"
+      "geo_name": "Horssjöns skjutfält",
+      "parser": "yy_mm_dd"
     },
     "Husie övningsfält": {
       "osm_ids": [],
-      "geo_name": null
+      "geo_name": null,
+      "parser": "beslut"
     },
     "Härads skjutfält": {
       "osm_ids": [
@@ -151,19 +169,22 @@
         "525237314",
         "622843552"
       ],
-      "geo_name": "Härads skjutfält"
+      "geo_name": "Härads skjutfält",
+      "parser": "harad"
     },
     "Härnösands, Härnöns och Skärsvikens skjutfält": {
       "osm_ids": [
         "785828347"
       ],
-      "geo_name": "Skärsvikens skjutfält"
+      "geo_name": "Skärsvikens skjutfält",
+      "parser": "harnosand"
     },
     "Järnavik övningsfält": {
       "osm_ids": [
         "785987342"
       ],
-      "geo_name": "Järnavik övningsfält"
+      "geo_name": "Järnavik övningsfält",
+      "parser": "blekinge"
     },
     "Kabusa skjutfält": {
       "osm_ids": [
@@ -175,81 +196,96 @@
       "osm_ids": [
         "253535424"
       ],
-      "geo_name": "Kalixfors skjutfält"
+      "geo_name": "Kalixfors skjutfält",
+      "parser": "standard_weekly"
     },
     "Karlskrona inre öars övningsfält": {
       "osm_ids": [
         "785862975"
       ],
-      "geo_name": "Karlskrona inre öar övningsfält"
+      "geo_name": "Karlskrona inre öar övningsfält",
+      "parser": "blekinge"
     },
     "Killeberget övningsfält": {
       "osm_ids": [
         "10933797"
       ],
-      "geo_name": "Killeberget övningsfält"
+      "geo_name": "Killeberget övningsfält",
+      "parser": "blekinge"
     },
     "Korsö skjutfält": {
       "osm_ids": [],
-      "geo_name": null
+      "geo_name": null,
+      "parser": "amf1"
     },
     "Kosta skjutfält": {
       "osm_ids": [
         "10279922"
       ],
-      "geo_name": "Kosta skjutfält"
+      "geo_name": "Kosta skjutfält",
+      "parser": "blekinge"
     },
     "Kråk skjutfält": {
       "osm_ids": [],
-      "geo_name": null
+      "geo_name": null,
+      "parser": "karlsborg"
     },
     "Kungsängens skjutfält": {
       "osm_ids": [
         "10627070"
       ],
-      "geo_name": "Kungsängenfältet"
+      "geo_name": "Kungsängenfältet",
+      "parser": "blekinge"
     },
     "Listershuvud övningsfält": {
       "osm_ids": [
         "785987345"
       ],
-      "geo_name": "Listershuvud övningsfält"
+      "geo_name": "Listershuvud övningsfält",
+      "parser": "blekinge"
     },
     "Lombens och Orrträsks skjutfält": {
       "osm_ids": [
         "4467139"
       ],
-      "geo_name": "Lombens skjutfält"
+      "geo_name": "Lombens skjutfält",
+      "parser": "standard_weekly"
     },
     "Marma skjutfält": {
       "osm_ids": [
         "9774419"
       ],
-      "geo_name": "Marma skjutfält"
+      "geo_name": "Marma skjutfält",
+      "parser": "marma"
     },
     "Mellstens skjutfält": {
       "osm_ids": [],
-      "geo_name": null
+      "geo_name": null,
+      "parser": "amf1"
     },
     "Norra Åsum": {
       "osm_ids": [],
-      "geo_name": null
+      "geo_name": null,
+      "parser": "norra_asum"
     },
     "Nytorps skjutfält": {
       "osm_ids": [],
-      "geo_name": null
+      "geo_name": null,
+      "parser": "karlsborg"
     },
     "Nyårsåsens skjutfält": {
       "osm_ids": [
         "398298796"
       ],
-      "geo_name": "Nyårsåsens skjutfält"
+      "geo_name": "Nyårsåsens skjutfält",
+      "parser": "date_slash"
     },
     "Pottneholmen övningsfält": {
       "osm_ids": [
         "785862974"
       ],
-      "geo_name": "Pottneholmen övningsfält"
+      "geo_name": "Pottneholmen övningsfält",
+      "parser": "blekinge"
     },
     "Prästtomta övnings- och skjutfält": {
       "osm_ids": [
@@ -259,14 +295,16 @@
         "494628677",
         "495908363"
       ],
-      "geo_name": "Prästtomta övnings- och skjutfält"
+      "geo_name": "Prästtomta övnings- och skjutfält",
+      "parser": "generic_iso"
     },
     "Ravlunda skjutfält": {
       "osm_ids": [
         "10931215",
         "10931216"
       ],
-      "geo_name": "Ravlunda skjutfält"
+      "geo_name": "Ravlunda skjutfält",
+      "parser": "blekinge"
     },
     "Remmene skjutfält": {
       "osm_ids": [
@@ -274,29 +312,34 @@
         "710474009",
         "710500313"
       ],
-      "geo_name": "Remmene skjutfält"
+      "geo_name": "Remmene skjutfält",
+      "parser": "date_slash"
     },
     "Revingehed pansarövningsfält": {
       "osm_ids": [
         "2807335"
       ],
-      "geo_name": "Revingehed pansarövningsfält"
+      "geo_name": "Revingehed pansarövningsfält",
+      "parser": "beslut"
     },
     "Ringenäs skjutfält": {
       "osm_ids": [
         "178663081"
       ],
-      "geo_name": "Ringenäs skjutfält"
+      "geo_name": "Ringenäs skjutfält",
+      "parser": "date_slash"
     },
     "Rinkaby skjutfält": {
       "osm_ids": [
         "182937872"
       ],
-      "geo_name": "Rinkaby skjutfält"
+      "geo_name": "Rinkaby skjutfält",
+      "parser": "rinkaby"
     },
     "Romeleklint övningsfält": {
       "osm_ids": [],
-      "geo_name": null
+      "geo_name": null,
+      "parser": "beslut"
     },
     "Rosenholms övningsfält": {
       "osm_ids": [
@@ -306,56 +349,66 @@
         "614749512",
         "786001320"
       ],
-      "geo_name": "Rosenholms övningsfält"
+      "geo_name": "Rosenholms övningsfält",
+      "parser": "blekinge"
     },
     "Rotens skjutfält": {
       "osm_ids": [],
-      "geo_name": null
+      "geo_name": null,
+      "parser": "amf1"
     },
     "Ryssjön övningsfält": {
       "osm_ids": [
         "263050397"
       ],
-      "geo_name": "Ryssjön övningsfält"
+      "geo_name": "Ryssjön övningsfält",
+      "parser": "blekinge"
     },
     "Sisjöns skjutfält": {
       "osm_ids": [],
-      "geo_name": null
+      "geo_name": null,
+      "parser": "generic_iso"
     },
     "Skillingaryds skjutfält": {
       "osm_ids": [
         "1218614518",
         "12991081"
       ],
-      "geo_name": "Skillingaryds övnings- och skjutfält"
+      "geo_name": "Skillingaryds övnings- och skjutfält",
+      "parser": "skillingaryd"
     },
     "Skogstibble skjutfält": {
       "osm_ids": [
         "1241136208"
       ],
-      "geo_name": "Skogstibblefältet"
+      "geo_name": "Skogstibblefältet",
+      "parser": "blekinge"
     },
     "Skövde skjutfält": {
       "osm_ids": [
         "961367756"
       ],
-      "geo_name": "Skövde skjutfält"
+      "geo_name": "Skövde skjutfält",
+      "parser": "skovde"
     },
     "Stabbo skjutfält": {
       "osm_ids": [],
-      "geo_name": null
+      "geo_name": null,
+      "parser": "amf1"
     },
     "Stärnö övningsfält": {
       "osm_ids": [
         "785987344"
       ],
-      "geo_name": "Stärnö övningsfält"
+      "geo_name": "Stärnö övningsfält",
+      "parser": "blekinge"
     },
     "Sågebackens skjutfält": {
       "osm_ids": [
         "1077395137"
       ],
-      "geo_name": "Sågebackens skjutområde"
+      "geo_name": "Sågebackens skjutområde",
+      "parser": "generic_iso"
     },
     "Såtenäs skjutfält": {
       "osm_ids": [
@@ -365,27 +418,31 @@
     },
     "Söderarms skjutfält": {
       "osm_ids": [],
-      "geo_name": null
+      "geo_name": null,
+      "parser": "amf1"
     },
     "Tjurkö övnings- och skjutfält": {
       "osm_ids": [
         "10933737",
         "14275587"
       ],
-      "geo_name": "Tjurkö övnings- och skjutfält"
+      "geo_name": "Tjurkö övnings- och skjutfält",
+      "parser": "blekinge"
     },
     "Tjärnmyrans skjutfält": {
       "osm_ids": [
         "776062264",
         "776067415"
       ],
-      "geo_name": "Tjärnmyrans skjutfält"
+      "geo_name": "Tjärnmyrans skjutfält",
+      "parser": "standard_weekly"
     },
     "Tofta skjutfält": {
       "osm_ids": [
         "714496061"
       ],
-      "geo_name": "Tofta skjutfält"
+      "geo_name": "Tofta skjutfält",
+      "parser": "tofta"
     },
     "Trelge skjutfält": {
       "osm_ids": [
@@ -397,26 +454,30 @@
       "osm_ids": [
         "785862969"
       ],
-      "geo_name": "Torhamns skjutfält"
+      "geo_name": "Torhamns skjutfält",
+      "parser": "blekinge"
     },
     "Trashalla övningsfält": {
       "osm_ids": [
         "785990977"
       ],
-      "geo_name": "Trashalla övningsfält"
+      "geo_name": "Trashalla övningsfält",
+      "parser": "blekinge"
     },
     "Tåme skjutfält": {
       "osm_ids": [
         "365895332"
       ],
-      "geo_name": "Tåme Skjutfält"
+      "geo_name": "Tåme Skjutfält",
+      "parser": "tame"
     },
     "Umeå övnings- och skjutfält": {
       "osm_ids": [
         "173526029",
         "785876449"
       ],
-      "geo_name": "Umeå övnings- och skjutfält"
+      "geo_name": "Umeå övnings- och skjutfält",
+      "parser": "generic_iso"
     },
     "Utö skjutfält": {
       "osm_ids": [
@@ -429,50 +490,58 @@
       "osm_ids": [
         "5959354"
       ],
-      "geo_name": "Veckholms skjutfält"
+      "geo_name": "Veckholms skjutfält",
+      "parser": "blekinge"
     },
     "Villingsbergs skjutfält": {
       "osm_ids": [
         "3596742",
         "5553825"
       ],
-      "geo_name": "Villingsbergs Skjutfält"
+      "geo_name": "Villingsbergs Skjutfält",
+      "parser": "yy_mm_dd"
     },
     "Väddö skjutfält": {
       "osm_ids": [
         "785875604"
       ],
-      "geo_name": "Väddö skjutfält"
+      "geo_name": "Väddö skjutfält",
+      "parser": "amf1"
     },
     "Vällinge övningsområde": {
       "osm_ids": [
         "785872276",
         "876264120"
       ],
-      "geo_name": "Vällinge övnings- och skjutfält"
+      "geo_name": "Vällinge övnings- och skjutfält",
+      "parser": "date_slash"
     },
     "Älvdalens skjutfält": {
       "osm_ids": [
         "11105915",
         "398496803"
       ],
-      "geo_name": "Älvdalens skjutfält"
+      "geo_name": "Älvdalens skjutfält",
+      "parser": "alvdalen_andring"
     },
     "Äspeskär övningsfält": {
       "osm_ids": [
         "785862972"
       ],
-      "geo_name": "Äspeskär övningsfält"
+      "geo_name": "Äspeskär övningsfält",
+      "parser": "blekinge"
     },
     "Önnarps övningsfält": {
       "osm_ids": [],
-      "geo_name": null
+      "geo_name": null,
+      "parser": "beslut"
     },
     "Öppenskär övningsfält": {
       "osm_ids": [
         "785993328"
       ],
-      "geo_name": "Öppenskär övningsfält"
+      "geo_name": "Öppenskär övningsfält",
+      "parser": "blekinge"
     }
   },
   "unmapped_polygons": [

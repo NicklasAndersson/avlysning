@@ -85,12 +85,15 @@ PARSERS: list[tuple[str, type]] = [
     ("generic_iso", GenericIsoParser),
 ]
 
+# Namnuppslag för statisk parsertilldelning
+PARSER_BY_NAME: dict[str, type] = {name: cls for name, cls in PARSERS}
 
-def parse_pdf_text(text: str, filename: str = "") -> list[dict] | None:
-    """Detekterar format och parsar PDF-text till restriktioner.
 
-    Returnerar None om ingen parser matchade (skiljer från tom lista
-    som betyder att parsern matchade men inga restriktioner hittades).
+def parse_pdf_text(text: str, filename: str = "", parser_name: str | None = None) -> list[dict] | None:
+    """Parsar PDF-text till restriktioner.
+
+    Om parser_name anges används den parsern direkt — ingen autodetektering.
+    Returnerar None om parsern inte kunde parsa texten.
     """
     # Snabbkontroll: "Ingen farlig verksamhet planerad" → tomt resultat
     if NO_ACTIVITY_RE.search(text):
@@ -117,10 +120,15 @@ def parse_pdf_text(text: str, filename: str = "") -> list[dict] | None:
         logger.info("Övningsinformation (ej restriktion): %s", filename)
         return []
 
-    for name, parser_cls in PARSERS:
-        if parser_cls.can_parse(text):
-            logger.info("Använder parser '%s' för %s", name, filename or "(okänd)")
-            return parser_cls.parse(text, filename)
+    # Statisk parsertilldelning — ingen autodetektering
+    if parser_name:
+        parser_cls = PARSER_BY_NAME.get(parser_name)
+        if not parser_cls:
+            logger.error("Okänd parser '%s' för %s", parser_name, filename)
+            return None
+        logger.info("Använder parser '%s' för %s", parser_name, filename or "(okänd)")
+        return parser_cls.parse(text, filename)
 
-    logger.warning("Ingen parser matchade för %s", filename or "(okänd)")
+    # Inget fält konfigurerat — logga varning
+    logger.warning("Ingen parser konfigurerad för %s", filename or "(okänd)")
     return None
