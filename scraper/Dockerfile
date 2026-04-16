@@ -10,8 +10,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY main.py upload.py ./
 COPY scrapers/ scrapers/
 
-# Skapa datakatalog för output
+# Skapa datakatalog och kopiera konfiguration
 RUN mkdir -p /app/data
+COPY field_config.json /app/data/field_config.json
 
 ENTRYPOINT ["python", "main.py"]
 CMD ["--source", "all", "--no-cache", "--output", "/app/data/skjutfalt_status.json", "--upload"]

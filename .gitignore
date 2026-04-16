@@ -34,6 +34,7 @@ Thumbs.db
 
 # Scraper downloads
 scraper/downloads/
+scraper/field_config.json
 
 # Cache and temp files
 tmp/

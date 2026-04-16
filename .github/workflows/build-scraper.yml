@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "scraper/**"
+      - "data/field_config.json"
   workflow_dispatch:
 
 env:
@@ -20,6 +21,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Copy field_config into build context
+        run: cp data/field_config.json scraper/field_config.json
 
       - uses: docker/login-action@v3
         with:
