@@ -26,6 +26,9 @@ class FMScraper(BaseScraper):
         field_config: dict[str, dict] = {}
         if config_path.exists():
             field_config = json.loads(config_path.read_text(encoding="utf-8")).get("fields", {})
+            self.logger.info("Laddade field_config med %d fält från %s", len(field_config), config_path)
+        else:
+            self.logger.warning("field_config.json hittades inte på %s — inga parsers tilldelas!", config_path)
 
         fields: list[dict] = []
         all_ranges = self._get_all_ranges()
