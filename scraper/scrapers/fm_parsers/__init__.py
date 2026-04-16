@@ -24,6 +24,7 @@ from .skillingaryd import SkillingarydParser
 from .skovde import SkovdeParser
 from .standard_weekly import StandardWeeklyParser
 from .tame import TameParser
+from .tofta import ToftaParser
 from .yy_mm_dd import YyMmDdParser
 
 logger = logging.getLogger(__name__)
@@ -67,6 +68,7 @@ PARSERS: list[tuple[str, type]] = [
     ("harnosand", HarnosandParser),
     ("blekinge", BlekingeParser),
     ("beslut", BeslutParser),
+    ("tofta", ToftaParser),
     ("amf1", Amf1Parser),
     ("norra_asum", NorraAsumParser),
     ("rinkaby", RinkabyParser),
