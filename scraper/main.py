@@ -16,7 +16,6 @@ from pathlib import Path
 from scrapers.fm import FMScraper
 from scrapers.bofors import BoforsScraper
 from scrapers.kommun import KommunScraper
-from upload import upload_to_r2
 
 logging.basicConfig(
     level=logging.INFO,
@@ -127,6 +126,7 @@ def main() -> None:
     logger.info("Resultat sparat till %s (%d fält totalt)", args.output, len(all_fields))
 
     if args.upload:
+        from upload import upload_to_r2
         logger.info("Laddar upp resultat till R2...")
         upload_to_r2(args.output.parent)
         logger.info("Upload klar")

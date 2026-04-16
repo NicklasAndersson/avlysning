@@ -1,9 +1,7 @@
 """Scraper för Försvarsmaktens skjutfält och avlysningar via deras interna API."""
 
 import io
-import json
 import re
-from pathlib import Path
 
 import pdfplumber
 
@@ -25,30 +23,11 @@ class FMScraper(BaseScraper):
         all_ranges = self._get_all_ranges()
         self.logger.info("Hittade %d skjutfält via API:et", len(all_ranges))
 
-        # Samla alla fält-ID:n → kanoniska namn för korsvalidering
-        all_field_names: dict[str, str] = {}
-        for r in all_ranges:
-            heading = r.get("heading", "")
-            all_field_names[self._make_id(heading)] = heading
-
-        # Inkludera fältnamn från field_config.json (innehåller fält som saknar
-        # eget API-heading men har egna polygoner, t.ex. Trelge under Tofta)
-        field_config_path = Path(__file__).parent.parent.parent / "data" / "field_config.json"
-        if field_config_path.exists():
-            try:
-                cfg = json.loads(field_config_path.read_text(encoding="utf-8"))
-                for name in cfg.get("fields", {}):
-                    fid = self._make_id(name)
-                    if fid not in all_field_names:
-                        all_field_names[fid] = name
-            except Exception:
-                self.logger.warning("Kunde inte läsa field_config.json")
-
         for range_data in all_ranges:
             try:
-                result = self._process_range(range_data, all_field_names)
-                if result:
-                    fields.extend(result)
+                field = self._process_range(range_data)
+                if field:
+                    fields.append(field)
             except Exception:
                 self.logger.exception(
                     "Kunde inte bearbeta fält: %s", range_data.get("heading", "Okänt")
@@ -84,20 +63,19 @@ class FMScraper(BaseScraper):
 
         return all_ranges
 
-    def _process_range(self, range_data: dict, all_field_names: dict[str, str] | None = None) -> list[dict]:
+    def _process_range(self, range_data: dict) -> dict | None:
         """Bearbetar ett skjutfält: filtrera PDF:er, ladda ner och parsa.
 
-        Returnerar en lista med fält-entries. Vanligtvis ett, men kan vara flera
-        om API:et listar PDF:er för olika fält under samma heading (t.ex. Tofta + Trelge).
+        Alla dokument under en heading tillhör det fältet — ingen gissning
+        utifrån filnamn behövs.
         """
         heading = range_data.get("heading", "Okänt fält")
         documents = range_data.get("documents") or []
 
         if not documents:
             self.logger.debug("Inga dokument för %s", heading)
-            return []
+            return None
 
-        # Skapa ID från namn
         field_id = self._make_id(heading)
 
         # Filtrera avlysnings-PDF:er (inte kartor etc)
@@ -120,115 +98,13 @@ class FMScraper(BaseScraper):
             heading, len(restriction_docs), len(documents),
         )
 
-        # Gruppera dokument per fält baserat på filnamn.
-        # Om filnamnet nämner ett annat känt fält → tilldela dit.
-        doc_groups: dict[str, list[dict]] = {}
-        for doc in restriction_docs:
-            target_id, target_name = self._resolve_doc_field(
-                doc, field_id, heading, all_field_names,
-            )
-            doc_groups.setdefault(target_id, {"name": target_name, "docs": []})
-            doc_groups[target_id]["docs"].append(doc)
-
-        # Bearbeta varje grupp till ett fält-entry
-        results: list[dict] = []
-        for fid, group in doc_groups.items():
-            field_entry = self._build_field_entry(fid, group["name"], group["docs"])
-            if field_entry:
-                results.append(field_entry)
-
-        return results
-
-    def _resolve_doc_field(
-        self, doc: dict, default_id: str, default_name: str,
-        all_field_names: dict[str, str] | None,
-    ) -> tuple[str, str]:
-        """Bestäm vilket fält ett dokument tillhör utifrån filnamnet i JSON.
-
-        Extraherar fältnamn-slug från dokumenttiteln och URL-katalogen.
-        Om sluggen matchar ett annat känt fält returneras det, annars default.
-        """
-        title = doc.get("title", "").lower()
-        url_path = doc.get("url", "").lower()
-
-        # Extrahera katalognamn efter skjutfalt-och-forbud/
-        pdf_field_dir = ""
-        parts = url_path.split("/")
-        for i, part in enumerate(parts):
-            if part == "skjutfalt-och-forbud" and i + 1 < len(parts):
-                pdf_field_dir = parts[i + 1]
-                break
-
-        # Extrahera fältslugg från filnamnet.
-        # Typiska mönster:
-        #   tilltradesforbud_trelge_v11-v21_2026.pdf
-        #   tilltradesforbud-tofta-v10-v20-2026.pdf
-        #   skjutvarning-blekinge-ovningsfalt-v15-v16-2026.pdf
-        # Ta bort prefix (tilltradesforbud/skjutvarning) och suffix (v-nummer, årtal)
-        slug_from_title = self._extract_field_slug(title)
-
-        if not all_field_names or not slug_from_title:
-            return default_id, default_name
-
-        # Om sluggen i filnamnet matchar default → behåll default
-        if default_id.startswith(slug_from_title) or slug_from_title.startswith(default_id.split("-")[0]):
-            return default_id, default_name
-
-        # Kolla om sluggen matchar ett annat känt fält-ID
-        for fid, canonical_name in all_field_names.items():
-            if fid == default_id:
-                continue
-            if fid.startswith(slug_from_title) or slug_from_title.startswith(fid.split("-")[0]):
-                self.logger.info(
-                    "Dokument '%s' under '%s' tillhör '%s' — omdirigerar",
-                    title, default_name, canonical_name,
-                )
-                return fid, canonical_name
-
-        # Sluggen matchar inget känt fält — skapa nytt fält
-        new_name = slug_from_title.replace("-", " ").title() + " skjutfält"
-        self.logger.info(
-            "Dokument '%s' under '%s' → nytt fält '%s'",
-            title, default_name, new_name,
-        )
-        return self._make_id(new_name), new_name
-
-    @staticmethod
-    def _extract_field_slug(title: str) -> str:
-        """Extraherar fältnamn-slug från ett PDF-filnamn.
-
-        Exempel:
-            tilltradesforbud_trelge_v11-v21_2026.pdf → trelge
-            skjutvarning-blekinge-ovningsfalt-v15-v16-2026.pdf → blekinge-ovningsfalt
-            tilltradesforbud-r74-arvidsjaur-v14-2026.pdf → arvidsjaur
-        """
-        # Ta bort filändelse
-        name = re.sub(r"\.pdf$", "", title, flags=re.IGNORECASE)
-        # Normalisera separatorer till bindestreck
-        name = name.replace("_", "-")
-        # Ta bort prefix
-        name = re.sub(
-            r"^(?:tilltradesforbud|skjutvarning|avlysning|varningsmeddelande)[-_]",
-            "", name,
-        )
-        # Ta bort Försvarsmaktens beslutsnummer (t.ex. "r74-")
-        name = re.sub(r"^r\d+[-_]", "", name)
-        # Ta bort veckoangivelser och årtal i slutet (v10-v20-2026, v15-2026)
-        name = re.sub(r"[-_]v\d+.*$", "", name)
-        # Ta bort bara årtal i slutet
-        name = re.sub(r"[-_]20\d{2}$", "", name)
-        return name.strip("-")
-
-    def _build_field_entry(self, field_id: str, name: str, docs: list[dict]) -> dict | None:
-        """Laddar ner och parsar PDF:er för ett fält, returnerar fält-entry."""
         restrictions: list[dict] = []
         pdf_urls: list[str] = []
-        for doc in docs:
+        for doc in restriction_docs:
             pdf_url = FM_BASE_URL + doc["url"]
             pdf_urls.append(pdf_url)
             try:
                 pdf_restrictions = self._parse_pdf(pdf_url)
-                # Lägg till source_url på varje restriktion
                 for r in pdf_restrictions:
                     r["source_url"] = pdf_url
                 restrictions.extend(pdf_restrictions)
@@ -247,7 +123,7 @@ class FMScraper(BaseScraper):
 
         return {
             "id": field_id,
-            "name": name,
+            "name": heading,
             "source": "forsvarsmakten.se",
             "source_url": pdf_urls[0] if pdf_urls else
                 FM_BASE_URL + "/regler-och-tillstand/skjutfalt-och-forbud/",
