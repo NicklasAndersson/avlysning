@@ -85,6 +85,17 @@ class BaseScraper(ABC):
         else:
             data_path.write_text(data, encoding="utf-8")
 
+    def _delete_cache(self, url: str) -> None:
+        """Tar bort cachad data för en URL."""
+        key = self._cache_key(url)
+        meta_path = self._cache_dir / f"{key}.meta"
+        data_path = self._cache_dir / f"{key}.data"
+
+        if meta_path.exists():
+            meta_path.unlink()
+        if data_path.exists():
+            data_path.unlink()
+
     def fetch(self, url: str, ttl: int | None = None) -> requests.Response:
         """Hämtar en URL med cache, rate limiting och retry vid anslutningsfel.
 
@@ -131,8 +142,17 @@ class BaseScraper(ABC):
         """Hämtar binärdata (t.ex. PDF) med cache och rate limiting."""
         cached = self._read_cache(url, binary=True, ttl=ttl)
         if cached is not None:
-            self.logger.info("Cache: %s", url)
-            return cached  # type: ignore[return-value]
+            # Validera att cachad PDF inte är tom (< 100 bytes)
+            if url.lower().endswith('.pdf') and len(cached) < 100:
+                self.logger.warning(
+                    "Cachad PDF är tom (endast %d bytes), invaliderar cache: %s",
+                    len(cached), url
+                )
+                # Ta bort cachad data så vi kan hämta på nytt
+                self._delete_cache(url)
+            else:
+                self.logger.info("Cache: %s", url)
+                return cached  # type: ignore[return-value]
 
         last_error: Exception | None = None
         for attempt in range(1, self.MAX_RETRIES + 1):
