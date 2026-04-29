@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: scraper-cache
-          key: scraper-cache-${{ github.run_id }}
+          key: scraper-cache-v1
           restore-keys: scraper-cache-
 
       - name: Run scraper
