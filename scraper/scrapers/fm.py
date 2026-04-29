@@ -152,10 +152,14 @@ class FMScraper(BaseScraper):
             full_text = self._extract_pdf_text(pdf_bytes, filename)
         except Exception as e:
             self.logger.warning("Kunde inte läsa PDF %s: %s", filename, e)
+            # Radera cachad PDF vid läsfel, kan vara korrupt
+            self._delete_cache(pdf_url)
             return []
 
         if not full_text.strip():
-            self.logger.warning("Tom PDF: %s", pdf_url)
+            self.logger.warning("Tom PDF (ingen text): %s", pdf_url)
+            # Radera cachad PDF utan text så vi försöker igen nästa körning
+            self._delete_cache(pdf_url)
             return []
 
         restrictions = parse_pdf_text(full_text, filename, parser_name=parser_name)
