@@ -142,8 +142,15 @@ class BaseScraper(ABC):
                 response = self.session.get(url, timeout=30)
                 self._last_request_time = time.time()
                 response.raise_for_status()
-                self._write_cache(url, response.content)
-                return response.content
+
+                # Cachea inte tomma PDF:er (< 100 bytes är troligen tomt)
+                content = response.content
+                if url.lower().endswith('.pdf') and len(content) < 100:
+                    self.logger.warning("Tom PDF (endast %d bytes), cachar inte: %s", len(content), url)
+                else:
+                    self._write_cache(url, content)
+
+                return content
             except (requests.ConnectionError, requests.Timeout) as exc:
                 last_error = exc
                 self.logger.warning(
