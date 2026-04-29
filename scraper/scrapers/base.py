@@ -143,14 +143,31 @@ class BaseScraper(ABC):
                 self._last_request_time = time.time()
                 response.raise_for_status()
 
-                # Cachea inte tomma PDF:er (< 100 bytes är troligen tomt)
                 content = response.content
-                if url.lower().endswith('.pdf') and len(content) < 100:
-                    self.logger.warning("Tom PDF (endast %d bytes), cachar inte: %s", len(content), url)
-                else:
-                    self._write_cache(url, content)
 
+                # Tomma PDF:er (< 100 bytes) är troligen ofullständiga nedladdningar
+                # Försök igen istället för att returnera tomt innehåll
+                if url.lower().endswith('.pdf') and len(content) < 100:
+                    self.logger.warning(
+                        "Tom PDF (endast %d bytes) vid %s (försök %d/%d)",
+                        len(content), url, attempt, self.MAX_RETRIES
+                    )
+                    if attempt < self.MAX_RETRIES:
+                        self.session.close()
+                        backoff = self.RETRY_BACKOFF * attempt
+                        self.logger.info("Väntar %.0f s innan nästa försök...", backoff)
+                        time.sleep(backoff)
+                        self._last_request_time = time.time()
+                        continue  # Försök igen
+                    else:
+                        # Sista försöket: returnera den tomma PDF:en
+                        self.logger.error("Tom PDF efter %d försök: %s", self.MAX_RETRIES, url)
+                        return content
+
+                # Endast cachea icke-tomma PDF:er
+                self._write_cache(url, content)
                 return content
+
             except (requests.ConnectionError, requests.Timeout) as exc:
                 last_error = exc
                 self.logger.warning(
