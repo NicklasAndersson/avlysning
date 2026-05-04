@@ -2,6 +2,14 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+# Systemberoenden: tesseract för OCR-fallback på skannade PDF:er
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        tesseract-ocr \
+        tesseract-ocr-swe \
+        tesseract-ocr-eng \
+    && rm -rf /var/lib/apt/lists/*
+
 # Installera beroenden först (cachas om requirements.txt inte ändrats)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt

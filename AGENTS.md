@@ -171,7 +171,7 @@ ogr2ogr -f GeoJSON data/skjutfalt.geojson \
  Never assume a command failed just because the terminal output appears empty.
 - **Overpass API** may timeout for large area queries. Prefer Geofabrik extracts + local processing with ogr2ogr.
 - **ogr2ogr (GDAL)** is installed on this machine.
-- **Temp dirs** should be in subdirectory of this project (e.g. `tmp/`) to avoid cluttering home directory. Always clean up temp files after processing.
+- **Temp & test files** must live in subdirectories of this project (`tmp/` for scratch, `test/` for test artefacts) — never in `/tmp`, `~/`, or other locations outside the repo. Always clean up afterwards.
 - **Create scripts** instead of running commands manually to ensure consistency and reproducibility.
 - **Python venv** finns i `scraper/.venv/`. Aktivera med `source scraper/.venv/bin/activate` innan scraper-kommandon.
 - **Data-symlink**: `frontend/public/data/` → `../../data/`. Frontend ser alltid senaste scraperresultat.

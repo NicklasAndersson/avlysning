@@ -488,6 +488,9 @@ function buildColorExpression(
     } else if (dateRestrictions.length > 0) {
       // Restriktion denna dag men inte just nu — gul
       fmNameColor[field.name] = '#FFC107'
+    } else if (field.parse_errors && field.parse_errors.length > 0) {
+      // Vi har PDF:er men kunde inte läsa dem — okänt status, visa gult
+      fmNameColor[field.name] = '#FFC107'
     } else {
       fmNameColor[field.name] = '#4CAF50'  // Grön: inga restriktioner denna dag
     }

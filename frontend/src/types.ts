@@ -13,6 +13,8 @@ export interface Field {
   source: string
   source_url?: string
   restrictions: Restriction[]
+  /** PDF-URLer som inte kunde parsas (tomma/oläsbara även efter OCR). */
+  parse_errors?: string[]
 }
 
 export interface FieldStatus {
