@@ -150,7 +150,7 @@ class BaseScraper(ABC):
                 )
                 # Ta bort cachad data så vi kan hämta på nytt
                 self._delete_cache(url)
-                # Fall through till nedladdningslogiken nedan
+                # Fall through till nedladdningslogiken nedan genom att inte returnera
             else:
                 self.logger.info("Cache: %s", url)
                 return cached  # type: ignore[return-value]

@@ -45,12 +45,13 @@ export function InfoPanel({ statusData, selectedField, onClose, selectedDateTime
 
   const dateLabel = isToday ? 'idag' : selectedDate
 
-  // Samla unika PDF-URLer
-  const pdfUrls = [...new Set(
-    field.restrictions
+  // Samla unika PDF-URLer (både från restriktioner och parse-fel)
+  const pdfUrls = [...new Set([
+    ...field.restrictions
       .map(r => r.source_url)
-      .filter((u): u is string => !!u)
-  )]
+      .filter((u): u is string => !!u),
+    ...(field.parse_errors ?? []),
+  ])]
 
   return (
     <div className="info-panel">
@@ -81,6 +82,16 @@ export function InfoPanel({ statusData, selectedField, onClose, selectedDateTime
           <div className="restrictions active">
             <h3>Aktiva restriktioner {dateLabel}</h3>
             <RestrictionList restrictions={dateRestrictions} />
+          </div>
+        ) : field.parse_errors && field.parse_errors.length > 0 ? (
+          <div className="restrictions upcoming">
+            <p>
+              ⚠️ Kunde inte läsa{' '}
+              {field.parse_errors.length === 1
+                ? 'avlysnings-PDF:en'
+                : `${field.parse_errors.length} avlysnings-PDF:er`}{' '}
+              för detta fält. Status okänd — kontrollera källan direkt.
+            </p>
           </div>
         ) : (
           <div className="restrictions clear">

@@ -113,16 +113,22 @@ class FMScraper(BaseScraper):
 
         restrictions: list[dict] = []
         pdf_urls: list[str] = []
+        parse_errors: list[str] = []
         for doc in restriction_docs:
             pdf_url = FM_BASE_URL + doc["url"]
             pdf_urls.append(pdf_url)
             try:
                 pdf_restrictions = self._parse_pdf(pdf_url, parser_name)
+                if pdf_restrictions is None:
+                    # Tom PDF eller läsfel — markera som parsefel
+                    parse_errors.append(pdf_url)
+                    continue
                 for r in pdf_restrictions:
                     r["source_url"] = pdf_url
                 restrictions.extend(pdf_restrictions)
             except Exception:
                 self.logger.exception("Kunde inte parsa PDF: %s", pdf_url)
+                parse_errors.append(pdf_url)
 
         # Deduplicera (samma datum+tid+typ+sektorer)
         seen: set[tuple[str, ...]] = set()
@@ -141,10 +147,15 @@ class FMScraper(BaseScraper):
             "source_url": pdf_urls[0] if pdf_urls else
                 FM_BASE_URL + "/regler-och-tillstand/skjutfalt-och-forbud/",
             "restrictions": unique,
+            "parse_errors": parse_errors,
         }
 
-    def _parse_pdf(self, pdf_url: str, parser_name: str | None = None) -> list[dict]:
-        """Laddar ner och parsar en avlysnings-PDF via konfigurerad parser."""
+    def _parse_pdf(self, pdf_url: str, parser_name: str | None = None) -> list[dict] | None:
+        """Laddar ner och parsar en avlysnings-PDF via konfigurerad parser.
+
+        Returnerar None om PDF:en inte kan läsas eller saknar text helt
+        (även efter OCR-försök). Returnerar lista (möjligen tom) annars.
+        """
         pdf_bytes = self.fetch_bytes(pdf_url)
         filename = pdf_url.split("/")[-1]
 
@@ -152,11 +163,24 @@ class FMScraper(BaseScraper):
             full_text = self._extract_pdf_text(pdf_bytes, filename)
         except Exception as e:
             self.logger.warning("Kunde inte läsa PDF %s: %s", filename, e)
-            return []
+            # Radera cachad PDF vid läsfel, kan vara korrupt
+            self._delete_cache(pdf_url)
+            return None
 
         if not full_text.strip():
-            self.logger.warning("Tom PDF: %s", pdf_url)
-            return []
+            # pdfplumber hittade ingen text — försök OCR (skannad PDF)
+            self.logger.info("Ingen text i PDF, försöker OCR: %s", filename)
+            try:
+                full_text = self._ocr_pdf_text(pdf_bytes, filename)
+            except Exception as e:
+                self.logger.warning("OCR misslyckades för %s: %s", filename, e)
+                full_text = ""
+
+        if not full_text.strip():
+            self.logger.warning("Tom PDF (ingen text, även efter OCR): %s", pdf_url)
+            # Radera cachad PDF utan text så vi försöker igen nästa körning
+            self._delete_cache(pdf_url)
+            return None
 
         restrictions = parse_pdf_text(full_text, filename, parser_name=parser_name)
         if restrictions is None:
@@ -169,13 +193,52 @@ class FMScraper(BaseScraper):
 
     @staticmethod
     def _extract_pdf_text(pdf_bytes: bytes, filename: str, timeout: int = 30) -> str:
-        """Extraherar text från PDF-bytes."""
+        """Extraherar text från PDF-bytes via pdfplumber (inbäddad text)."""
         with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
             parts: list[str] = []
             for page in pdf.pages:
                 text = page.extract_text()
                 if text:
                     parts.append(text)
+        return "\n".join(parts)
+
+    def _ocr_pdf_text(self, pdf_bytes: bytes, filename: str) -> str:
+        """Extraherar text via OCR från en PDF utan inbäddad text (skannad).
+
+        Kräver pypdfium2, pytesseract och tesseract-binären (med svenskt
+        språkpaket) installerade. Returnerar tom sträng om något saknas.
+        """
+        try:
+            import pypdfium2 as pdfium  # type: ignore[import-not-found]
+            import pytesseract  # type: ignore[import-not-found]
+        except ImportError as e:
+            self.logger.warning(
+                "OCR-bibliotek saknas (%s) — hoppar över OCR för %s", e, filename
+            )
+            return ""
+
+        # Välj språk: svenska om tillgängligt, annars engelska
+        try:
+            available_langs = set(pytesseract.get_languages(config=""))
+        except Exception:
+            available_langs = set()
+        if "swe" in available_langs:
+            lang = "swe+eng" if "eng" in available_langs else "swe"
+        else:
+            lang = "eng"
+
+        parts: list[str] = []
+        pdf = pdfium.PdfDocument(pdf_bytes)
+        try:
+            for page in pdf:
+                # scale=2 ger ~144 DPI, bra balans mellan kvalitet och hastighet
+                bitmap = page.render(scale=2)
+                pil_image = bitmap.to_pil()
+                text = pytesseract.image_to_string(pil_image, lang=lang)
+                if text:
+                    parts.append(text)
+        finally:
+            pdf.close()
         return "\n".join(parts)
 
     @staticmethod
