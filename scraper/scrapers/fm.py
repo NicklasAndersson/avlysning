@@ -81,6 +81,12 @@ class FMScraper(BaseScraper):
 
         Alla dokument under en heading tillhör det fältet — ingen gissning
         utifrån filnamn behövs.
+
+        Returnerar ett fält-dict med:
+        - pdf_urls: Lista med alla PDF-URLer för fältet (för användare att kunna
+          verifiera manuellt)
+        - restrictions: Parsade restriktioner från alla PDF:er
+        - parse_errors: PDF-URLer som inte kunde parsas
         """
         heading = range_data.get("heading", "Okänt fält")
         documents = range_data.get("documents") or []
