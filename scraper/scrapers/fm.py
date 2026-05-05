@@ -146,6 +146,7 @@ class FMScraper(BaseScraper):
             "source": "forsvarsmakten.se",
             "source_url": pdf_urls[0] if pdf_urls else
                 FM_BASE_URL + "/regler-och-tillstand/skjutfalt-och-forbud/",
+            "pdf_urls": pdf_urls,
             "restrictions": unique,
             "parse_errors": parse_errors,
         }

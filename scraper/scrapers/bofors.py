@@ -48,6 +48,7 @@ class BoforsScraper(BaseScraper):
                 "name": "Bofors skjutfält",
                 "source": "skjutfalten.se",
                 "source_url": BASE_URL,
+                "pdf_urls": [],
                 "restrictions": all_restrictions,
             })
 

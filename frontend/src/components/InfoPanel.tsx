@@ -45,12 +45,13 @@ export function InfoPanel({ statusData, selectedField, onClose, selectedDateTime
 
   const dateLabel = isToday ? 'idag' : selectedDate
 
-  // Samla unika PDF-URLer (både från restriktioner och parse-fel)
+  // Samla alla unika PDF-URLer från fältets pdf_urls, parse_errors och individuella restrictions
   const pdfUrls = [...new Set([
+    ...(field.pdf_urls ?? []),
+    ...(field.parse_errors ?? []),
     ...field.restrictions
       .map(r => r.source_url)
       .filter((u): u is string => !!u),
-    ...(field.parse_errors ?? []),
   ])]
 
   return (
