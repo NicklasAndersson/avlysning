@@ -58,8 +58,13 @@ export function InfoPanel({ statusData, selectedField, onClose, selectedDateTime
       .filter((u): u is string => !!u),
   ])]
 
-  // Visa varning om parsning misslyckades
-  const hasParseErrors = field.parse_errors && field.parse_errors.length > 0
+  // Visa varning om parsning misslyckades, eller om vi har PDF:er
+  // men ingen parsad restriktion (då vet vi inte säkert om fältet är fritt)
+  const hasParseErrors = !!(field.parse_errors && field.parse_errors.length > 0)
+  const hasUnparsedPdfs =
+    !!(field.pdf_urls && field.pdf_urls.length > 0) &&
+    field.restrictions.length === 0
+  const isUncertain = hasParseErrors || hasUnparsedPdfs
 
   return (
     <div className="info-panel">
@@ -69,7 +74,7 @@ export function InfoPanel({ statusData, selectedField, onClose, selectedDateTime
       </div>
 
       <div className="info-panel-body">
-        <div className={`source-links ${hasParseErrors ? 'warning' : ''}`}>
+        <div className={`source-links ${isUncertain ? 'warning' : ''}`}>
           {pdfUrls.length > 0 ? (
             pdfUrls.map((url, i) => {
               const filename = url.split('/').pop() ?? 'PDF'
@@ -91,14 +96,22 @@ export function InfoPanel({ statusData, selectedField, onClose, selectedDateTime
             <h3>Aktiva restriktioner {dateLabel}</h3>
             <RestrictionList restrictions={dateRestrictions} />
           </div>
-        ) : field.parse_errors && field.parse_errors.length > 0 ? (
+        ) : hasParseErrors ? (
           <div className="restrictions upcoming">
             <p>
               ⚠️ Kunde inte läsa{' '}
-              {field.parse_errors.length === 1
+              {field.parse_errors!.length === 1
                 ? 'avlysnings-PDF:en'
-                : `${field.parse_errors.length} avlysnings-PDF:er`}{' '}
+                : `${field.parse_errors!.length} avlysnings-PDF:er`}{' '}
               för detta fält. Status okänd — kontrollera källan direkt.
+            </p>
+          </div>
+        ) : hasUnparsedPdfs ? (
+          <div className="restrictions upcoming">
+            <p>
+              ⚠️ Det finns {field.pdf_urls!.length === 1 ? 'en avlysnings-PDF' : `${field.pdf_urls!.length} avlysnings-PDF:er`}{' '}
+              för detta fält men inga restriktioner kunde tolkas automatiskt.
+              Status okänd — kontrollera källan direkt.
             </p>
           </div>
         ) : (
