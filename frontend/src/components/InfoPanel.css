@@ -44,6 +44,13 @@
   margin-bottom: 1rem;
 }
 
+.source-links.warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+
 .source-links a {
   font-size: 0.8rem;
   color: #1b3a2d;
