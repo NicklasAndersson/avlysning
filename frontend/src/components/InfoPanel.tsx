@@ -17,7 +17,9 @@ interface InfoPanelProps {
 export function InfoPanel({ statusData, selectedField, onClose, selectedDateTime, isPermanentBan }: InfoPanelProps) {
   if (!selectedField || !statusData) return null
 
-  const field = statusData.fields.find(f => f.name === selectedField)
+  // selectedField kommer från field_config (FM-namn) eller som fallback polygon-namn.
+  // För att alltid hitta rätt fält matchar vi både på `name` och på `id`.
+  const field = statusData.fields.find(f => f.name === selectedField || f.id === selectedField)
   if (!field) {
     return (
       <div className="info-panel">
