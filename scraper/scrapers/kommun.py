@@ -77,6 +77,7 @@ class KommunScraper(BaseScraper):
             "name": source["name"],
             "source": f"{source['kommun']}.se",
             "source_url": source["url"],
+            "pdf_urls": [],
             "restrictions": restrictions,
         }
 
