@@ -9,7 +9,7 @@
     "directory": "frontend/dist"
   },
   "build": {
-    "command": "npm install && npm --prefix frontend run build"
+    "command": "npm --prefix frontend ci && npm --prefix frontend run build"
   },
   "compatibility_flags": [
     "nodejs_compat"
