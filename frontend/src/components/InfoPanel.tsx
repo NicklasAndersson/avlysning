@@ -56,6 +56,9 @@ export function InfoPanel({ statusData, selectedField, onClose, selectedDateTime
       .filter((u): u is string => !!u),
   ])]
 
+  // Visa varning om parsning misslyckades
+  const hasParseErrors = field.parse_errors && field.parse_errors.length > 0
+
   return (
     <div className="info-panel">
       <div className="info-panel-header">
@@ -64,7 +67,7 @@ export function InfoPanel({ statusData, selectedField, onClose, selectedDateTime
       </div>
 
       <div className="info-panel-body">
-        <div className="source-links">
+        <div className={`source-links ${hasParseErrors ? 'warning' : ''}`}>
           {pdfUrls.length > 0 ? (
             pdfUrls.map((url, i) => {
               const filename = url.split('/').pop() ?? 'PDF'

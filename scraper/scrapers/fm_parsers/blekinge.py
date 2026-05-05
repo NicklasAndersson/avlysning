@@ -53,6 +53,37 @@ def _extract_year(filename: str, text: str) -> int:
     return date.today().year
 
 
+def _looks_like_schedule(text: str) -> bool:
+    """Detekterar om PDF-text verkar innehålla ett schema/tidsplan.
+
+    Returnerar True om texten innehåller flera indikatorer på ett schema
+    (veckodagar, månader, tider) men inte matchades av parsern.
+    """
+    text_lower = text.lower()
+
+    # Räkna indikatorer
+    weekday_count = sum(1 for wd in ["måndag", "tisdag", "onsdag", "torsdag", "fredag", "lördag", "söndag"]
+                       if wd in text_lower)
+    month_count = sum(1 for m in ["januari", "februari", "mars", "april", "maj", "juni",
+                                   "juli", "augusti", "september", "oktober", "november", "december",
+                                   "jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"]
+                     if m in text_lower)
+
+    # Leta efter tidsindikatorer (HH:MM eller HH.MM)
+    time_pattern = re.compile(r"\d{2}[:.]\d{2}")
+    time_count = len(time_pattern.findall(text))
+
+    # Leta efter datum-formuleringar som "Den DD månad" eller "DD månad"
+    date_like_pattern = re.compile(r"\b\d{1,2}\s+(januari|februari|mars|april|maj|juni|juli|augusti|september|oktober|november|december|jan|feb|mar|apr|maj|jun|jul|aug|sep|okt|nov|dec)\b", re.IGNORECASE)
+    date_like_count = len(date_like_pattern.findall(text))
+
+    # Om PDF:en innehåller minst 2 veckodagar OCH minst 1 månad OCH minst 2 tider,
+    # ELLER minst 2 datum-liknande rader med månader OCH minst 2 tider,
+    # tolkar vi det som ett schema som borde ha matchats
+    return ((weekday_count >= 2 and month_count >= 1 and time_count >= 2) or
+            (date_like_count >= 2 and time_count >= 2))
+
+
 class BlekingeParser(PDFParser):
     """Parser för Blekinge-format med 'Måndag 13 apr 0700-2400'."""
 
@@ -61,7 +92,7 @@ class BlekingeParser(PDFParser):
         return bool(BLEKINGE_HEADER_RE.search(text)) or bool(BLEKINGE_ROW_RE.search(text))
 
     @staticmethod
-    def parse(text: str, filename: str = "") -> list[dict]:
+    def parse(text: str, filename: str = "") -> list[dict] | None:
         year = _extract_year(filename, text)
         restriction_type = detect_type(text)
         restrictions: list[dict] = []
@@ -113,5 +144,11 @@ class BlekingeParser(PDFParser):
                 "type": restriction_type,
                 "sectors": sectors if sectors else ["all"],
             })
+
+        # Detektera "suspicious" tom resultat: PDF verkar innehålla ett schema
+        # men vi hittade inga datum-rader. Detta indikerar format-mismatch.
+        if not restrictions and _looks_like_schedule(text):
+            # Returnera None för att flagga som parse_error istället för tomt resultat
+            return None
 
         return restrictions
