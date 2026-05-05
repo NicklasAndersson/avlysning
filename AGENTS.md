@@ -142,7 +142,13 @@ Alternative: Overpass API (can be slow/unreliable for large queries).
 ```bash
 # Frontend
 cd frontend && npm run dev        # Start dev server (port 5173)
-cd frontend && npm run build      # Production build
+cd frontend && npm run build      # Production build → frontend/dist/
+
+# Deploy (Cloudflare Workers + Assets)
+npm run deploy                    # Builds frontend then runs `wrangler deploy`
+# Cloudflare's GitHub-integration (Workers Builds) runs `wrangler deploy`,
+# which triggers `build.command` in wrangler.jsonc → bygger frontend/dist
+# innan upload. Statiska assets serveras från frontend/dist (se assets.directory).
 
 # Scraper (kräver aktiverad venv)
 cd scraper && pip install -r requirements.txt
