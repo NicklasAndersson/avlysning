@@ -45,10 +45,12 @@ export function InfoPanel({ statusData, selectedField, onClose, selectedDateTime
 
   const dateLabel = isToday ? 'idag' : selectedDate
 
-  // Samla alla unika PDF-URLer från fältets pdf_urls, parse_errors och individuella restrictions
+  // Samla alla unika PDF-URLer från fältets pdf_urls, parse_errors, source_url och individuella restrictions
   const pdfUrls = [...new Set([
     ...(field.pdf_urls ?? []),
     ...(field.parse_errors ?? []),
+    // Inkludera source_url om den är en PDF (kan vara fallback till första PDF:en)
+    ...(field.source_url && field.source_url.toLowerCase().includes('.pdf') ? [field.source_url] : []),
     ...field.restrictions
       .map(r => r.source_url)
       .filter((u): u is string => !!u),
@@ -72,11 +74,11 @@ export function InfoPanel({ statusData, selectedField, onClose, selectedDateTime
                 </a>
               )
             })
-          ) : (
+          ) : field.source_url ? (
             <a href={field.source_url} target="_blank" rel="noopener noreferrer">
               Källa: {field.source}
             </a>
-          )}
+          ) : null}
         </div>
 
         {dateRestrictions.length > 0 ? (
