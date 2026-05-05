@@ -4,6 +4,12 @@ on:
   schedule:
     - cron: "0 5 * * *"  # Varje dag kl 05:00 UTC (07:00 CEST)
   workflow_dispatch:      # Manuell körning
+  workflow_run:
+    workflows: ["Build & Push Scraper Image"]
+    types:
+      - completed
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -13,6 +19,8 @@ jobs:
   scrape:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # Kör bara om workflow_run triggades OCH build lyckades, eller om triggad manuellt/schedule
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - uses: docker/login-action@v3
