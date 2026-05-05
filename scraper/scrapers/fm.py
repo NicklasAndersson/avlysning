@@ -97,20 +97,15 @@ class FMScraper(BaseScraper):
 
         field_id = self._make_id(heading)
 
-        # Filtrera avlysnings-PDF:er (inte kartor etc)
+        # Ta alla icke-karta PDF:er som kan innehålla restriktioner
+        # Tidigare logik var för restriktiv: om ett fält hade 3 PDF:er varav bara 1
+        # matchade nyckelord, ignorerades de andra 2. Nu inkluderar vi alla icke-karta
+        # PDF:er oavsett titel, eftersom det inte finns garantier om namnkonventioner.
         restriction_docs = [
             d for d in documents
-            if any(kw in d.get("title", "").lower()
-                   for kw in ["tilltradesforbud", "skjutvarning", "avlysning", "varningsmeddelande"])
+            if d.get("url", "").lower().endswith(".pdf")
+            and "karta" not in d.get("title", "").lower()
         ]
-
-        # Om inga specifika, ta alla icke-karta PDF:er
-        if not restriction_docs:
-            restriction_docs = [
-                d for d in documents
-                if "karta" not in d.get("title", "").lower()
-                and d.get("url", "").lower().endswith(".pdf")
-            ]
 
         self.logger.info(
             "Fält '%s': %d avlysnings-PDF:er av %d dokument",
