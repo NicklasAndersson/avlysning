@@ -17,6 +17,7 @@ from .harad import HaradParser
 from .harnosand import HarnosandParser
 from .kalixfors import KalixforsParser
 from .karlsborg import KarlsborgParser
+from .kungsangen import KungsangenParser
 from .marma import MarmaParser
 from .norra_asum import NorraAsumParser
 from .rinkaby import RinkabyParser
@@ -64,6 +65,7 @@ EXERCISE_INFO_RE = re.compile(
 # Prioritetsordning: specifika parsers först, generella sist
 PARSERS: list[tuple[str, type]] = [
     ("tame", TameParser),
+    ("kungsangen", KungsangenParser),
     ("marma", MarmaParser),
     ("harnosand", HarnosandParser),
     ("blekinge", BlekingeParser),
